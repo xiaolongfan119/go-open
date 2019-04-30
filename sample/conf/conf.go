@@ -3,8 +3,9 @@ package conf
 import (
 	"flag"
 
+	"go-open/library/net/http/hypnus"
+
 	"github.com/BurntSushi/toml"
-	"github.com/ihornet/go-commom/library/net/http/hypnus"
 )
 
 var (

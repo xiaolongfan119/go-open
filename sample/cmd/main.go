@@ -1,9 +1,9 @@
 package main
 
 import (
-	ecode "github.com/ihornet/go-commom/library/ecode"
-	hp "github.com/ihornet/go-commom/library/net/http/hypnus"
-	"github.com/ihornet/go-commom/sample/conf"
+	ecode "go-open/library/ecode"
+	hp "go-open/library/net/http/hypnus"
+	"go-open/sample/conf"
 )
 
 func main() {
@@ -16,4 +16,10 @@ func main() {
 		c.JSON(nil, ecode.UnknownCode)
 	})
 	engine.Start()
+
+	// http.HandleFunc("/", func(w http.ResponseWriter, r *http.Request) {
+
+	// })
+
+	// http.ListenAndServe("")
 }

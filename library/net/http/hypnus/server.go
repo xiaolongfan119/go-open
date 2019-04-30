@@ -9,7 +9,7 @@ import (
 	"strings"
 	"time"
 
-	xtime "github.com/ihornet/go-commom/library/time"
+	xtime "go-open/library/time"
 )
 
 type HandlerFunc func(*Context)
@@ -63,8 +63,9 @@ func (engine *Engine) Start() {
 		WriteTimeout: time.Duration(conf.WriteTimeout),
 	}
 
+	fmt.Printf("launching server, listening: %s\n", conf.Address)
 	if err = engine.RunServer(server, l); err != nil {
-		fmt.Println("[ ERR ] hypnus: launch sever:", err)
+		fmt.Printf("[ ERR ] hypnus: launch sever:%s\n ", err)
 		panic(err)
 	}
 }
@@ -72,7 +73,7 @@ func (engine *Engine) Start() {
 func (engine *Engine) RunServer(server *http.Server, ln net.Listener) (err error) {
 	server.Handler = engine.mux
 	if err = server.Serve(ln); err != nil {
-		return
+		return err
 	}
 	return
 }
