@@ -21,7 +21,7 @@ func init() {
 }
 
 func Init() (err error) {
-	confPath := "./../test-conf.toml"
+	confPath = "./../cmd/test-conf.toml"
 	if confPath != "" {
 		return local()
 	}

@@ -1,0 +1,4 @@
+[httpServer]
+	address="0.0.0.0:3000"
+	readTimeout="1m"
+	WriteTimeout="1m"

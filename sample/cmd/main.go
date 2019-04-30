@@ -1,17 +1,19 @@
 package main
 
 import (
-	"fmt"
-
-	"github.com/ihornet/go-commom/library/net/http/hypnus"
+	ecode "github.com/ihornet/go-commom/library/ecode"
+	hp "github.com/ihornet/go-commom/library/net/http/hypnus"
 	"github.com/ihornet/go-commom/sample/conf"
 )
 
 func main() {
 	conf.Init()
-	engine := hypnus.DefaultServer(conf.Conf.HttpServer)
+	engine := hp.DefaultServer(conf.Conf.HttpServer)
 	eg := engine.Group("/", nil)
-	eg.GET("/test", func(c *hypnus.Context) {
-		fmt.Println("##########")
+	eg.POST("/test", func(c *hp.Context) {
+		// c.Writer.Write([]byte(c.Req.Body["name"].(string)))
+		//c.JSON(c.Req.Body["name"].(string), nil)
+		c.JSON(nil, ecode.UnknownCode)
 	})
+	engine.Start()
 }

@@ -1,10 +1,15 @@
 package hypnus
 
 import (
+	"encoding/json"
 	"fmt"
 	"net"
 	"net/http"
+	"net/url"
+	"strings"
 	"time"
+
+	xtime "github.com/ihornet/go-commom/library/time"
 )
 
 type HandlerFunc func(*Context)
@@ -19,8 +24,8 @@ type Engine struct {
 type ServerConf struct {
 	Network      string
 	Address      string
-	ReadTimeout  time.Duration
-	WriteTimeout time.Duration
+	ReadTimeout  xtime.Duration
+	WriteTimeout xtime.Duration
 }
 
 func DefaultServer(conf *ServerConf) *Engine {
@@ -35,6 +40,8 @@ func NewServer(conf *ServerConf) *Engine {
 			basePath: "/",
 		},
 		metastore: make(map[string]map[string]interface{}),
+		mux:       http.NewServeMux(),
+		conf:      conf,
 	}
 
 	engine.RouterGroup.engine = engine
@@ -52,8 +59,8 @@ func (engine *Engine) Start() {
 		panic(err)
 	}
 	server := &http.Server{
-		ReadTimeout:  conf.ReadTimeout,
-		WriteTimeout: conf.WriteTimeout,
+		ReadTimeout:  time.Duration(conf.ReadTimeout),
+		WriteTimeout: time.Duration(conf.WriteTimeout),
 	}
 
 	if err = engine.RunServer(server, l); err != nil {
@@ -85,17 +92,47 @@ func (engine *Engine) addRoute(method, path string, handlers ...HandlerFunc) {
 	}
 
 	engine.metastore[path]["method"] = method
+
 	engine.mux.HandleFunc(path, func(w http.ResponseWriter, req *http.Request) {
 		c := &Context{
 			engine:   engine,
 			Request:  req,
 			Writer:   w,
 			handlers: handlers,
+			method:   method,
 		}
 		engine.handleContext(c)
 	})
 }
 
 func (engine *Engine) handleContext(c *Context) {
-	c.Next() // iterate handlers
+	engine.parseReqParams(c)
+	// iterate handlers
+	c.Next()
+}
+
+func (engine *Engine) parseReqParams(c *Context) {
+
+	req := c.Request
+	cType := req.Header.Get("Content-Type")
+	c.Req.Body = make(map[string]interface{})
+
+	switch {
+	case strings.Contains(cType, "application/json"):
+		json.NewDecoder(req.Body).Decode(&c.Req.Body)
+	case strings.Contains(cType, "application/x-www-form-urlencoded"):
+		req.ParseForm()
+		for k, v := range req.PostForm {
+			c.Req.Body[k] = v[0]
+		}
+	default:
+		// TODO panic error
+	}
+
+	c.Req.Query = make(map[string]interface{})
+	if vs, err := url.ParseQuery(req.URL.RawQuery); err == nil {
+		for k, v := range vs {
+			c.Req.Query[k] = v[0]
+		}
+	}
 }

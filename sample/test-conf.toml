@@ -1,4 +1,0 @@
-[httpServer]
-	address="0.0.0.0:3000"
-	readTimeout=1 
-	WriteTimeout=1
