@@ -32,8 +32,8 @@ type Context struct {
 	// so add the field to store parameters
 	Req struct {
 		// can't understand go use map[string][]string ???
-		Body  map[string]interface{}
-		Query map[string]interface{}
+		Body  map[string]string
+		Query map[string]string
 	}
 }
 
@@ -45,7 +45,6 @@ func (c *Context) Next() {
 		return
 	}
 
-	c.index++
 	len := int8(len(c.handlers))
 	for ; c.index < len; c.index++ {
 		c.handlers[c.index](c)

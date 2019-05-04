@@ -5,6 +5,8 @@ import (
 
 	"go-open/library/net/http/hypnus"
 
+	jwt "go-open/library/net/http/hypnus/middleware/token"
+
 	"github.com/BurntSushi/toml"
 )
 
@@ -14,7 +16,8 @@ var (
 )
 
 type Config struct {
-	HttpServer *hypnus.ServerConf
+	HttpServer  *hypnus.ServerConf
+	TokenConfig *jwt.TokenConfig
 }
 
 func init() {

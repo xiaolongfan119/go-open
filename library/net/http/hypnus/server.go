@@ -116,7 +116,7 @@ func (engine *Engine) parseReqParams(c *Context) {
 
 	req := c.Request
 	cType := req.Header.Get("Content-Type")
-	c.Req.Body = make(map[string]interface{})
+	c.Req.Body = make(map[string]string)
 
 	switch {
 	case strings.Contains(cType, "application/json"):
@@ -130,7 +130,7 @@ func (engine *Engine) parseReqParams(c *Context) {
 		// TODO panic error
 	}
 
-	c.Req.Query = make(map[string]interface{})
+	c.Req.Query = make(map[string]string)
 	if vs, err := url.ParseQuery(req.URL.RawQuery); err == nil {
 		for k, v := range vs {
 			c.Req.Query[k] = v[0]

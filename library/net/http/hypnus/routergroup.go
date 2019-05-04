@@ -15,6 +15,9 @@ func (group *RouterGroup) Group(relativePath string, handlers ...HandlerFunc) *R
 }
 
 func (group *RouterGroup) combineHandlers(handlers ...HandlerFunc) []HandlerFunc {
+	if handlers[0] == nil {
+		return group.Handlers
+	}
 	size := len(group.Handlers) + len(handlers)
 	if size > int(_abortIndex) {
 		panic("too many handlers")
