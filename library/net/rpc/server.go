@@ -4,97 +4,15 @@ import (
 	"context"
 	xtime "go-open/library/time"
 	"math"
+	"net"
 	"sync"
 	"time"
 
 	"google.golang.org/grpc/keepalive"
+	"google.golang.org/grpc/reflection"
 
 	"google.golang.org/grpc"
 )
-
-// import (
-// 	"bufio"
-// 	"encoding/gob"
-// 	"fmt"
-// 	"io"
-// 	"net"
-// 	"sync"
-// )
-
-// type ServerConfig struct {
-// 	Proto string
-// 	Addr  string
-// }
-
-// type service struct{}
-
-// type Server struct {
-// 	lis        net.Listener
-// 	serviceMap map[string]*service
-// }
-
-// func NewServer(c *ServerConfig) *Server {
-// 	if c == nil {
-// 		// TODO panic error
-// 	}
-
-// 	s := newServer()
-// 	go rpcListen(c, s)
-// 	return s
-// }
-
-// func rpcListen(c *ServerConfig, s *Server) {
-// 	l, err := net.Listen(c.Proto, c.Addr)
-// 	if err != nil {
-// 		// TODO panic error
-// 	}
-// 	defer func() {
-// 		if err := l.Close(); err != nil {
-// 			// TODO panic err
-// 		}
-// 		fmt.Println("rpc listener closed")
-// 	}()
-// 	fmt.Println("start rpc listen addr:" + c.Addr)
-// 	go s.Accept(l)
-// }
-
-// func (server *Server) Accept(lis net.Listener) {
-// 	for {
-// 		conn, err := lis.Accept()
-// 		if err != nil {
-// 			fmt.Printf("rpc.Server: accept: %s", err.Error())
-// 			return
-// 		}
-// 		go server.ServeConn(conn)
-// 	}
-// }
-
-// func (server *Server) ServeConn(conn net.Conn) {
-
-// }
-
-// func newServer() *Server {
-// 	return &Server{serviceMap: make(map[string]*service)}
-// }
-
-// type serverCodec struct {
-// 	sending sync.Mutex
-// 	resp    Response
-// 	req     Request
-// 	auth    Auth
-// 	rwc     io.ReadWriteCloser
-// 	dec     *gob.Decoder
-// 	enc     *gob.Encoder
-// 	encBuf  *bufio.Writer
-// 	addr    net.Addr
-// 	closed  bool
-// }
-
-// type Response struct{}
-// type Request struct{}
-// type Auth struct{}
-
-/////////////////////////////////
 
 var (
 	_abortIndex int8 = math.MaxInt8 / 2
@@ -214,6 +132,42 @@ func (s *Server) interceptor(ctx context.Context, req interface{}, info *grpc.Un
 	return s.handlers[0](ctx, req, info, chain)
 }
 
-func (s *Server) Register(receiver interface{}) (err error) {
+func (s *Server) Server() *grpc.Server {
+	return s.server
+}
 
+func (s *Server) Start() (*Server, error) {
+	lis, err := net.Listen(s.conf.Network, s.conf.Addr)
+	if err != nil {
+		return nil, err
+	}
+	reflection.Register(s.server)
+	go func() {
+		if err := s.Serve(lis); err != nil {
+			panic(err)
+		}
+	}()
+	return s, nil
+}
+
+func (s *Server) Serve(lis net.Listener) error {
+	return s.server.Serve(lis)
+}
+
+func (s *Server) Shutdown(ctx context.Context) (err error) {
+
+	ch := make(chan struct{})
+
+	go func() {
+		s.server.GracefulStop()
+		close(ch)
+	}()
+
+	select {
+	case <-ctx.Done():
+		s.server.Stop()
+		err = ctx.Err
+	case <-ch:
+	}
+	return
 }

@@ -31,3 +31,23 @@ func (s *Server) recovery() grpc.UnaryServerInterceptor {
 		return
 	}
 }
+
+func (c *Client) recovery() grpc.UnaryClientInterceptor {
+	return func(ctx context.Context, method string, req, reply interface{}, cc *grpc.ClientConn, invoker grpc.UnaryInvoker, opts ...grpc.CallOption) (err error) {
+		defer func() {
+			if err := recover(); err != nil {
+				const size = 64 << 10
+				buf := make([]byte, size)
+				rs := runtime.Stack(buf, false)
+				if size < rs {
+					rs = size
+				}
+				buf = buf[:rs]
+				fmt.Printf("grpc server panic: %v\n%v\n%s\n", req, err, buf)
+				err = ecode.ServerErr
+			}
+		}()
+		err = invoker(ctx, method, req, reply, cc, opts...)
+		return
+	}
+}
