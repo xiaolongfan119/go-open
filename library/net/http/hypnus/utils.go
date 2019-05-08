@@ -21,3 +21,7 @@ func JoinPaths(path1, path2 string) string {
 	}
 	return path
 }
+
+
+
+

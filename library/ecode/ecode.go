@@ -2,6 +2,7 @@ package ecode
 
 import (
 	"fmt"
+	log "go-open/library/log"
 	"strconv"
 	"sync"
 )
@@ -39,6 +40,7 @@ func (c Code) Message() string {
 
 func Add(code int, msg string) Code {
 	if code < 0 {
+		log.Info("ecode must greater than zero")
 		panic("ecode must greater than zero")
 	}
 
@@ -46,6 +48,7 @@ func Add(code int, msg string) Code {
 	defer mu.Unlock()
 
 	if _, ok := _code[code]; ok {
+		log.Info(fmt.Sprintf("ecode: %d already exist", code))
 		panic(fmt.Sprintf("ecode: %d already exist", code))
 	}
 	_code[code] = msg

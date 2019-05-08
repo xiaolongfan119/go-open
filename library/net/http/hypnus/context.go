@@ -24,8 +24,6 @@ type Context struct {
 
 	index int8 // control flow
 
-	method string // http method
-
 	Error error // for response
 
 	// store require parameters. ParseForm() just support application/x-www-form-urlencoded,
@@ -34,16 +32,12 @@ type Context struct {
 		// can't understand go use map[string][]string ???
 		Body  map[string]string
 		Query map[string]string
+		Param map[string]interface{}
 	}
 }
 
 // iterate the handlers
 func (c *Context) Next() {
-
-	if c.Request.Method != c.method {
-		// TODO handle err
-		return
-	}
 
 	len := int8(len(c.handlers))
 	for ; c.index < len; c.index++ {

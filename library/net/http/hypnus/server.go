@@ -3,27 +3,24 @@ package hypnus
 import (
 	"encoding/json"
 	"fmt"
+	log "go-open/library/log"
+	xtime "go-open/library/time"
 	"net"
 	"net/http"
 	"net/url"
 	"strings"
-	"time"
-
-	xtime "go-open/library/time"
 )
 
 type HandlerFunc func(*Context)
 
 type Engine struct {
 	RouterGroup
-	conf      *ServerConf
-	mux       *http.ServeMux
-	metastore map[string]map[string]interface{}
+	conf   *ServerConf
+	router *Router
 }
 
 type ServerConf struct {
-	Network      string
-	Address      string
+	Port         string
 	ReadTimeout  xtime.Duration
 	WriteTimeout xtime.Duration
 }
@@ -39,9 +36,8 @@ func NewServer(conf *ServerConf) *Engine {
 			Handlers: nil,
 			basePath: "/",
 		},
-		metastore: make(map[string]map[string]interface{}),
-		mux:       http.NewServeMux(),
-		conf:      conf,
+		router: NewRouter(),
+		conf:   conf,
 	}
 
 	engine.RouterGroup.engine = engine
@@ -50,28 +46,14 @@ func NewServer(conf *ServerConf) *Engine {
 
 func (engine *Engine) Start() {
 	conf := engine.conf
-	if conf.Network == "" {
-		conf.Network = "tcp"
-	}
-	l, err := net.Listen(conf.Network, conf.Address)
-	if err != nil {
-		fmt.Println("[ ERR ] hypnus: listen tcp:", err)
-		panic(err)
-	}
-	server := &http.Server{
-		ReadTimeout:  time.Duration(conf.ReadTimeout),
-		WriteTimeout: time.Duration(conf.WriteTimeout),
-	}
-
-	fmt.Printf("launching server, listening: %s\n", conf.Address)
-	if err = engine.RunServer(server, l); err != nil {
-		fmt.Printf("[ ERR ] hypnus: launch sever:%s\n ", err)
-		panic(err)
+	log.Info(fmt.Sprintf("server will launch, listening port %s", conf.Port))
+	if err := http.ListenAndServe(conf.Port, engine); err != nil {
+		log.Error(fmt.Sprintf("server launch failed with port %s #### err: %v", conf.Port, err))
+		return
 	}
 }
 
 func (engine *Engine) RunServer(server *http.Server, ln net.Listener) (err error) {
-	server.Handler = engine.mux
 	if err = server.Serve(ln); err != nil {
 		return err
 	}
@@ -88,22 +70,8 @@ func (engine *Engine) addRoute(method, path string, handlers ...HandlerFunc) {
 	if len(handlers) == 0 {
 		panic("hypnus: handlers can't be empty")
 	}
-	if _, ok := engine.metastore[path]; !ok {
-		engine.metastore[path] = make(map[string]interface{})
-	}
 
-	engine.metastore[path]["method"] = method
-
-	engine.mux.HandleFunc(path, func(w http.ResponseWriter, req *http.Request) {
-		c := &Context{
-			engine:   engine,
-			Request:  req,
-			Writer:   w,
-			handlers: handlers,
-			method:   method,
-		}
-		engine.handleContext(c)
-	})
+	engine.router.Handle(method, path, handlers...)
 }
 
 func (engine *Engine) handleContext(c *Context) {
@@ -136,4 +104,24 @@ func (engine *Engine) parseReqParams(c *Context) {
 			c.Req.Query[k] = v[0]
 		}
 	}
+}
+
+func (engine *Engine) ServeHTTP(w http.ResponseWriter, req *http.Request) {
+
+	path := req.URL.Path
+	if root := engine.router.trees[req.Method]; root != nil {
+		if handles, ps, _ := root.getValue(path); handles != nil {
+			c := &Context{
+				engine:   engine,
+				Request:  req,
+				Writer:   w,
+				handlers: handles,
+			}
+			c.Req.Param = ps.getAll()
+			engine.handleContext(c)
+			return
+		}
+	}
+
+	http.NotFound(w, req)
 }
