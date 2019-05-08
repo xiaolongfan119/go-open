@@ -1,6 +1,7 @@
 package log
 
 import (
+	"os"
 	"runtime"
 	"strings"
 	"sync"
@@ -9,9 +10,9 @@ import (
 )
 
 var (
-	Info  logger.Info
-	Warn  logger.Warn
-	Error logger.Error
+	Info  = logger.Info
+	Warn  = logger.Warn
+	Error = logger.Error
 )
 
 var (
@@ -26,12 +27,12 @@ type LogConfig struct {
 	OutPut string
 }
 
-// func Init(conf *LogConfig) {
-// 	logger.SetOutput(os.Stdout)
-// 	logger.SetLevel(logger.InfoLevel)
-// 	logger.SetReportCaller(true)
-// 	logger.AddHook(newLfsHook(conf.Path))
-// }
+func Init(conf *LogConfig) {
+	logger.SetOutput(os.Stdout)
+	logger.SetLevel(logger.InfoLevel)
+	logger.SetReportCaller(true)
+	logger.AddHook(newLfsHook(conf.Path))
+}
 
 // func Info(args ...interface{}) {
 // 	logger.Info(args...)
