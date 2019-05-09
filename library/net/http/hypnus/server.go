@@ -108,6 +108,8 @@ func (engine *Engine) parseReqParams(c *Context) {
 
 func (engine *Engine) ServeHTTP(w http.ResponseWriter, req *http.Request) {
 
+	defer recovery()
+
 	path := req.URL.Path
 	if root := engine.router.trees[req.Method]; root != nil {
 		if handles, ps, _ := root.getValue(path); handles != nil {

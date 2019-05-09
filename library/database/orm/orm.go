@@ -7,11 +7,19 @@ import (
 
 	log "go-open/library/log"
 
+	_ "github.com/go-sql-driver/mysql"
 	"github.com/jinzhu/gorm"
 )
 
-type Config struct {
-	Path        string
+var DB *gorm.DB
+
+type DBConfig struct {
+	Host     string
+	DBName   string
+	Username string
+	Password string
+	Port     string
+
 	Active      int
 	Idle        int
 	IdleTimeout xtime.Duration
@@ -23,15 +31,18 @@ func (l ormLog) Print(v ...interface{}) {
 	log.Info(v...)
 }
 
-func NewMySQL(conf *Config) (db *gorm.DB) {
-	db, err := gorm.Open("mysql", conf.Path)
+func NewMySQL(conf *DBConfig) (db *gorm.DB) {
+	var err error
+	path := fmt.Sprintf("%s:%s@/%s?charset=utf8&parseTime=True", conf.Username, conf.Password, conf.DBName)
+	DB, err = gorm.Open("mysql", path)
 	if err != nil {
-		log.Info(fmt.Sprintf("db connect with path: %s   err: %v \n", conf.Path, err))
+		log.Info(fmt.Sprintf("db connect with path: %s   err: %v \n", path, err))
 		panic(err)
 	}
-	db.DB().SetMaxIdleConns(conf.Idle)
-	db.DB().SetMaxOpenConns(conf.Active)
-	db.DB().SetConnMaxLifetime(time.Duration(conf.IdleTimeout) / time.Second)
-	db.SetLogger(ormLog{})
-	return
+	DB.DB().SetMaxIdleConns(conf.Idle)
+	DB.DB().SetMaxOpenConns(conf.Active)
+	DB.DB().SetConnMaxLifetime(time.Duration(conf.IdleTimeout) / time.Second)
+	DB.SetLogger(ormLog{})
+	DB.SingularTable(true)
+	return DB
 }

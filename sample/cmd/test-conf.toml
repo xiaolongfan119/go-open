@@ -9,3 +9,10 @@
 [logConfig]	
 	Path = "/Users/haizhang/work/study/go/igo2/src/go-open/sample/log/"
 	OutPut=""
+[dbConfig]
+  Host="127.0.0.1"
+  DBName="test"
+  Username= "root"
+  Password= "hys_1234"
+  Port="3306"
+   

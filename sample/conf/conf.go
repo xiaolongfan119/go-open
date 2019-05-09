@@ -2,6 +2,7 @@ package conf
 
 import (
 	"flag"
+	"go-open/library/database/orm"
 
 	"go-open/library/net/http/hypnus"
 
@@ -21,6 +22,7 @@ type Config struct {
 	HttpServer  *hypnus.ServerConf
 	TokenConfig *jwt.TokenConfig
 	LogConfig   *log.LogConfig
+	DBConfig    *orm.DBConfig
 }
 
 func init() {

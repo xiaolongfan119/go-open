@@ -1,6 +1,10 @@
 package hypnus
 
-import "path"
+import (
+	logger "go-open/library/log"
+	"path"
+	"runtime"
+)
 
 func JoinPaths(path1, path2 string) string {
 	if path1 == "" {
@@ -22,6 +26,15 @@ func JoinPaths(path1, path2 string) string {
 	return path
 }
 
-
-
-
+func recovery() {
+	if err := recover(); err != nil {
+		const size = 64 << 10
+		buf := make([]byte, size)
+		rs := runtime.Stack(buf, false)
+		if size < rs {
+			rs = size
+		}
+		buf = buf[:rs]
+		logger.Error(string(buf))
+	}
+}

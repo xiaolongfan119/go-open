@@ -1,6 +1,7 @@
 package log
 
 import (
+	"path"
 	"time"
 
 	rotatelogs "github.com/lestrrat-go/file-rotatelogs"
@@ -19,7 +20,7 @@ func newLfsHook(path string) log.Hook {
 	return lfsHook
 }
 
-func getWriter(level log.Level, path string) (w *rotatelogs.RotateLogs) {
+func getWriter(level log.Level, _path string) (w *rotatelogs.RotateLogs) {
 	var (
 		fileName      string
 		rotationTime  int
@@ -41,10 +42,12 @@ func getWriter(level log.Level, path string) (w *rotatelogs.RotateLogs) {
 		rotationCount = 5
 	}
 
+	logPath := path.Join(_path, fileName)
+
 	w, err := rotatelogs.New(
-		path+fileName+".%Y%m%d",
+		logPath+".%Y%m%d",
 		// WithLinkName为最新的日志建立软连接，以方便随着找到当前日志文件
-		rotatelogs.WithLinkName(fileName),
+		// rotatelogs.WithLinkName(logPath),
 
 		// WithRotationTime设置日志分割的时间，这里设置为一小时分割一次
 		rotatelogs.WithRotationTime(time.Duration(rotationTime)*time.Hour),

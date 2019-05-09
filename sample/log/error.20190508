@@ -1,1 +1,2 @@
-time="2019-05-08T17:53:23+08:00" level=error msg="#######" func=main.main file="/Users/haizhang/work/study/go/igo2/src/go-open/sample/cmd/main.go:13"
+time="2019-05-09T10:07:49+08:00" level=error msg="server launch failed with port :3000 #### err: listen tcp :3000: bind: address already in use" func="go-open/library/net/http/hypnus.(*Engine).Start" file="/Users/haizhang/work/study/go/igo2/src/go-open/library/net/http/hypnus/server.go:51"
+time="2019-05-09T10:08:06+08:00" level=error msg="server launch failed with port :3000 #### err: listen tcp :3000: bind: address already in use" func="go-open/library/net/http/hypnus.(*Engine).Start" file="/Users/haizhang/work/study/go/igo2/src/go-open/library/net/http/hypnus/server.go:51"
