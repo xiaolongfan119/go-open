@@ -32,7 +32,7 @@ type Context struct {
 		// can't understand go use map[string][]string ???
 		Body  map[string]string
 		Query map[string]string
-		Param map[string]interface{}
+		Param map[string]string
 	}
 }
 
@@ -60,9 +60,19 @@ func (c *Context) JSON(data interface{}, err error) {
 		Message: bcode.Message(),
 		Data:    data,
 	}
-
+	c.preHandleJson(obj)
 	ret, _ := json.Marshal(obj)
 	c.Writer.Write(ret)
+}
+
+func (c *Context) preHandleJson(obj *respObj) {
+	if obj.Status == ecode.SUCCESS && obj.Data == nil {
+		obj.Data = struct {
+			Success bool `json:"success"`
+		}{Success: true}
+	} else if obj.Status == ecode.FAILED {
+		obj.Data = nil
+	}
 }
 
 // response struct

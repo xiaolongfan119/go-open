@@ -7,7 +7,7 @@ import (
 
 func Init(conf *conf.Config) {
 
-	models := []interface{}{&User{}, &Address{}}
+	models := []interface{}{&User{}, &Address{}, &Email{}, &Profile{}}
 
 	db := orm.NewMySQL(conf.DBConfig)
 	db.AutoMigrate(models...)

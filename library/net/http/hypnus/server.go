@@ -48,7 +48,7 @@ func (engine *Engine) Start() {
 	conf := engine.conf
 	log.Info(fmt.Sprintf("server will launch, listening port %s", conf.Port))
 	if err := http.ListenAndServe(conf.Port, engine); err != nil {
-		log.Error(fmt.Sprintf("server launch failed with port %s #### err: %v", conf.Port, err))
+		log.Error("", fmt.Sprintf("server launch failed with port %s #### err: %v", conf.Port, err))
 		return
 	}
 }
@@ -76,6 +76,8 @@ func (engine *Engine) addRoute(method, path string, handlers ...HandlerFunc) {
 
 func (engine *Engine) handleContext(c *Context) {
 	engine.parseReqParams(c)
+	log.Info(fmt.Sprintf(">>>>>>>>>>>>【 %s 】 %s ### param: %v ### query: %v ### body: %v",
+		c.Request.Method, c.Request.URL.Path, c.Req.Param, c.Req.Query, c.Req.Body))
 	// iterate handlers
 	c.Next()
 }
@@ -108,7 +110,7 @@ func (engine *Engine) parseReqParams(c *Context) {
 
 func (engine *Engine) ServeHTTP(w http.ResponseWriter, req *http.Request) {
 
-	defer recovery()
+	defer Recovery()
 
 	path := req.URL.Path
 	if root := engine.router.trees[req.Method]; root != nil {
@@ -124,6 +126,6 @@ func (engine *Engine) ServeHTTP(w http.ResponseWriter, req *http.Request) {
 			return
 		}
 	}
-
+	log.Warn(fmt.Sprintf(">>>>>>>>> 404【 %s 】 %s", req.Method, req.URL.Path))
 	http.NotFound(w, req)
 }

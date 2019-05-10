@@ -6,13 +6,8 @@ import (
 
 type User struct {
 	orm.Model
-	Age   int
-	Name  string
-	Email string
+	Age     int     `json:"age"`
+	Name    string  `json:"name"`
+	Email   Email   `json:"email"`
+	Profile Profile `json:"profile"`
 }
-
-// type Email struct {
-// 	ID     int
-// 	UserID int
-// 	Email  string
-// }

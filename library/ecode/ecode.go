@@ -7,6 +7,11 @@ import (
 	"sync"
 )
 
+const (
+	SUCCESS = "success"
+	FAILED  = "failed"
+)
+
 var (
 	// store error message. code as key, message as value
 	_code = map[int]string{}
@@ -22,9 +27,9 @@ func (c Code) Error() string {
 func (c Code) Code() int { return int(c) }
 func (c Code) Status() string {
 	if c == OK {
-		return "success"
+		return SUCCESS
 	}
-	return "failed"
+	return FAILED
 }
 
 func (c Code) Message() string {

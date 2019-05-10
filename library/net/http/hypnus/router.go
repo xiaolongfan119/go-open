@@ -31,8 +31,8 @@ func (ps Params) ByName(name string) string {
 	return ""
 }
 
-func (ps Params) getAll() map[string]interface{} {
-	p := make(map[string]interface{})
+func (ps Params) getAll() map[string]string {
+	p := make(map[string]string)
 	for i := range ps {
 		p[ps[i].Key] = ps[i].Value
 	}
@@ -185,7 +185,7 @@ func (r *Router) ServeFiles(path string, root http.FileSystem) {
 	fileServer := http.FileServer(root)
 
 	r.GET(path, func(ctx *Context) {
-		ctx.Request.URL.Path = ctx.Req.Param["filepath"].(string)
+		ctx.Request.URL.Path = ctx.Req.Param["filepath"]
 		fileServer.ServeHTTP(ctx.Writer, ctx.Request)
 	})
 }

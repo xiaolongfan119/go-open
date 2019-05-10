@@ -1,6 +1,7 @@
 package hypnus
 
 import (
+	"fmt"
 	logger "go-open/library/log"
 	"path"
 	"runtime"
@@ -26,7 +27,7 @@ func JoinPaths(path1, path2 string) string {
 	return path
 }
 
-func recovery() {
+func Recovery() {
 	if err := recover(); err != nil {
 		const size = 64 << 10
 		buf := make([]byte, size)
@@ -34,7 +35,7 @@ func recovery() {
 		if size < rs {
 			rs = size
 		}
-		buf = buf[:rs]
-		logger.Error(string(buf))
+		str := fmt.Sprintf("%s", buf[:rs])
+		logger.Error(str, err)
 	}
 }

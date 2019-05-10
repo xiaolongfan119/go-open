@@ -2,22 +2,22 @@ package log
 
 import (
 	"os"
-	"sync"
 
 	logger "github.com/sirupsen/logrus"
 )
 
 var (
-	Info  = logger.Info
-	Warn  = logger.Warn
-	Error = logger.Error
+	Info = logger.Info
+	Warn = logger.Warn
 )
 
-var (
-	packageName        string
-	callerInitOnce     sync.Once
-	minimumCallerDepth = 3
-)
+func Error(stack interface{}, args interface{}) {
+	if stack == nil {
+		logger.Error(args)
+	} else {
+		logger.WithFields(logger.Fields{"msg": args}).Error(stack)
+	}
+}
 
 type LogConfig struct {
 	Path   string
@@ -28,6 +28,6 @@ type LogConfig struct {
 func Init(conf *LogConfig) {
 	logger.SetOutput(os.Stdout)
 	logger.SetLevel(logger.InfoLevel)
-	logger.SetReportCaller(true)
+	// logger.SetReportCaller(true)
 	logger.AddHook(newLfsHook(conf.Path))
 }

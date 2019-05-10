@@ -45,7 +45,7 @@ func getWriter(level log.Level, _path string) (w *rotatelogs.RotateLogs) {
 	logPath := path.Join(_path, fileName)
 
 	w, err := rotatelogs.New(
-		logPath+".%Y%m%d",
+		logPath+".%Y%m%d.log",
 		// WithLinkName为最新的日志建立软连接，以方便随着找到当前日志文件
 		// rotatelogs.WithLinkName(logPath),
 

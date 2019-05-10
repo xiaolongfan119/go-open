@@ -22,6 +22,10 @@ func route(engine *hp.Engine) {
 	})
 
 	eg.POST("/Add/", userCtr.Add)
+	eg.POST("/Update/", userCtr.Update)
+	eg.GET("/Query/", userCtr.Query)
+	eg.DELETE("/Delete/:id", userCtr.Delete)
+
 }
 
 type Test struct {
