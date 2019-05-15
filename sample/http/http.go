@@ -17,15 +17,18 @@ func Init(conf *hp.ServerConf) {
 
 func route(engine *hp.Engine) {
 	eg := engine.Group("/", nil)
-	eg.POST("/test/:id", func(c *hp.Context) {
+
+	eg.POST("/users/:id", func(c *hp.Context) {
 		c.JSON(c.Req.Param["id"], nil)
 	})
 
-	eg.POST("/Add/", userCtr.Add)
-	eg.POST("/Update/", userCtr.Update)
-	eg.GET("/Query/", userCtr.Query)
-	eg.DELETE("/Delete/:id", userCtr.Delete)
-
+	eg_1 := eg.Group("/test/", nil)
+	{
+		eg_1.POST("/Add/", userCtr.Add)
+		eg_1.POST("/Update/", userCtr.Update)
+		eg_1.GET("/Query/", userCtr.Query)
+		eg_1.DELETE("/Delete/:id", userCtr.Delete)
+	}
 }
 
 type Test struct {

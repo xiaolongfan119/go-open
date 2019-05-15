@@ -75,6 +75,12 @@ func (c *Context) preHandleJson(obj *respObj) {
 	}
 }
 
+// just for body
+func (c *Context) Bind(obj interface{}) error {
+	mapBody(obj, c.Req.Body)
+	return nil
+}
+
 // response struct
 type respObj struct {
 	Code    int         `json:"code"`
