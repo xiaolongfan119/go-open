@@ -1,7 +1,6 @@
 package hypnus
 
 import (
-	"fmt"
 	"reflect"
 	"strconv"
 	"sync"
@@ -42,12 +41,23 @@ func mapBody(ptr interface{}, body map[string]string) error {
 		}
 
 		typeFieldKind := typeField.Type.Kind()
-		// don't handle struct type now . just handle simple type: string 、 number 、 bool
+		inputValue, exist := body[field.name]
+
+		// don't handle struct type now . just handle simple type: string 、 number 、 bool、time
 		if typeFieldKind == reflect.Struct {
+
+			/*
+				var t time.Time = time.Time{}
+				reflect.TypeOf(t).Kind() == reflect.Struct
+				so specifically to handle time.Time
+			*/
+			if _, isTime := structField.Interface().(time.Time); isTime && exist {
+				if err := setTimeValue(inputValue, structField); err != nil {
+					return err
+				}
+			}
 			continue
 		}
-
-		inputValue, exist := body[typeField.Name]
 
 		if !exist {
 			if field.hasDefault {
@@ -59,13 +69,6 @@ func mapBody(ptr interface{}, body map[string]string) error {
 		// if inputValue is empty, set field with defaultValue
 		if field.hasDefault && inputValue == "" {
 			structField.Set(field.defaultValue)
-			continue
-		}
-
-		if _, isTime := structField.Interface().(time.Time); isTime {
-			if err := setTimeValue(inputValue, val); err != nil {
-				return err
-			}
 			continue
 		}
 
@@ -95,11 +98,15 @@ func (c *cache) set(obj reflect.Type) (s *sinfo) {
 	for i := 0; i < tp.NumField(); i++ {
 		fd := new(field)
 		fd.StructField = tp.Field(i)
-		fd.name = tp.Field(i).Name
+		tag := fd.StructField.Tag.Get("body")
+		if tag == "" {
+			fd.name = fd.StructField.Name
+		} else {
+			fd.name = tag
+		}
 		s.field = append(s.field, fd)
 
 		if defV := fd.StructField.Tag.Get("default"); defV != "" {
-			fmt.Printf("default value: %s", defV)
 			fd.hasDefault = true
 
 			// NOTE : don't call of reflect.Value.Elem on zero Value
@@ -178,11 +185,15 @@ func setStringValue(inputValue string, val reflect.Value) error {
 }
 
 func setTimeValue(inputValue string, val reflect.Value) error {
+
+	// var t time.Time / var t time.Time = time.Time{}  both of they are zore value.
+	// so when inputValue == " don't need to set time.Time{}
+
 	if inputValue == "" {
-		val.Set(reflect.ValueOf(time.Time{}))
 		return nil
 	}
 
+	// why the date format is 2006-01-02 15:04:05, see https://www.jianshu.com/p/c7f7fbb16932
 	t, err := time.ParseInLocation("2006-01-02 15:04:05", inputValue, time.Local)
 	if err != nil {
 		return errors.WithStack(err)

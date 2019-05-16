@@ -8,8 +8,7 @@ type UserService struct {
 	BaseService
 }
 
-func (service *UserService) Add() (data interface{}, err error) {
-	user := model.User{Age: 11, Name: ""}
+func (service *UserService) Add(user *model.User) (data interface{}, err error) {
 	profile := model.Profile{Name: "ppsssp"}
 	email := model.Email{Email: "email###sads##"}
 	user.Profile = profile

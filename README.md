@@ -1,1 +1,2 @@
-# go-commom
+# go-open
+#### 参照某站源码编写

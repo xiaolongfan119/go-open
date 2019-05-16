@@ -16,7 +16,7 @@ func (ctr *UserController) Add(ctx *hp.Context) {
 	if err := ctx.Bind(user); err != nil {
 		return
 	}
-	ctx.JSON(userSrv.Add())
+	ctx.JSON(userSrv.Add(user))
 }
 
 func (ctr *UserController) Update(ctx *hp.Context) {
