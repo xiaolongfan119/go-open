@@ -4,7 +4,9 @@ import (
 	"fmt"
 	logger "go-open/library/log"
 	"path"
+	"reflect"
 	"runtime"
+	"strconv"
 )
 
 func JoinPaths(path1, path2 string) string {
@@ -38,4 +40,21 @@ func Recovery() {
 		str := fmt.Sprintf("%s", buf[:rs])
 		logger.Error(str, err)
 	}
+}
+
+func convertMap2StrMap(data map[string]interface{}) map[string]string {
+	m := make(map[string]string)
+	for k, v := range data {
+		switch v.(type) {
+		case string:
+			m[k] = v.(string)
+		case bool:
+			m[k] = strconv.FormatBool(v.(bool))
+		case float64:
+			m[k] = strconv.FormatFloat(v.(float64), 'f', -1, 64)
+		default:
+			fmt.Printf("%v", reflect.TypeOf(v))
+		}
+	}
+	return m
 }

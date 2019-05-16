@@ -77,7 +77,11 @@ func (c *Context) preHandleJson(obj *respObj) {
 
 // just for body
 func (c *Context) Bind(obj interface{}) error {
-	mapBody(obj, c.Req.Body)
+	if err := mapBody(obj, c.Req.Body); err != nil {
+		c.Abort()
+		c.JSON(nil, ecode.ParamsFormatError)
+		return err
+	}
 	return nil
 }
 

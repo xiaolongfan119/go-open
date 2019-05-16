@@ -13,7 +13,9 @@ type UserController struct{}
 func (ctr *UserController) Add(ctx *hp.Context) {
 
 	user := new(model.User)
-	ctx.Bind(user)
+	if err := ctx.Bind(user); err != nil {
+		return
+	}
 	ctx.JSON(userSrv.Add())
 }
 
