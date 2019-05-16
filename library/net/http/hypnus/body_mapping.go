@@ -1,6 +1,7 @@
 package hypnus
 
 import (
+	"fmt"
 	"reflect"
 	"strconv"
 	"sync"
@@ -50,14 +51,14 @@ func mapBody(ptr interface{}, body map[string]string) error {
 
 		if !exist {
 			if field.hasDefault {
-				//TODO set default
+				structField.Set(field.defaultValue)
 				continue
 			}
 		}
 
 		// if inputValue is empty, set field with defaultValue
 		if field.hasDefault && inputValue == "" {
-			//TODO  set default
+			structField.Set(field.defaultValue)
 			continue
 		}
 
@@ -96,6 +97,17 @@ func (c *cache) set(obj reflect.Type) (s *sinfo) {
 		fd.StructField = tp.Field(i)
 		fd.name = tp.Field(i).Name
 		s.field = append(s.field, fd)
+
+		if defV := fd.StructField.Tag.Get("default"); defV != "" {
+			fmt.Printf("default value: %s", defV)
+			fd.hasDefault = true
+
+			// NOTE : don't call of reflect.Value.Elem on zero Value
+			// reflect.New(reflect.Type) return pointer of the new value
+			val := reflect.New(fd.StructField.Type).Elem()
+			setFieldValue(fd.StructField.Type.Kind(), defV, val)
+			fd.defaultValue = val
+		}
 	}
 	c.mutex.Lock()
 	c.data[obj] = s
