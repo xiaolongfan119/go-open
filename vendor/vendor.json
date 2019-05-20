@@ -9,10 +9,41 @@
 			"revisionTime": "2019-04-30T08:31:34Z"
 		},
 		{
+			"checksumSHA1": "dvabztWVQX8f6oMLRyv4dLH+TGY=",
+			"origin": "github.com/stretchr/testify/vendor/github.com/davecgh/go-spew/spew",
+			"path": "github.com/davecgh/go-spew/spew",
+			"revision": "34c6fa2dc70986bccbbffcc6130f6920a924b075",
+			"revisionTime": "2019-03-04T09:57:49Z"
+		},
+		{
 			"checksumSHA1": "blOHP3HPYU+IeV6yWCalQuuM+zE=",
 			"path": "github.com/dgrijalva/jwt-go",
 			"revision": "3af4c746e1c248ee8491a3e0c6f7a9cd831e95f8",
 			"revisionTime": "2018-09-21T17:23:15Z"
+		},
+		{
+			"checksumSHA1": "b4DmyMT9bicTRVJw1hJXHLhIH+0=",
+			"path": "github.com/go-playground/locales",
+			"revision": "630ebbb602847eba93e75ae38bbc7bb7abcf1ff3",
+			"revisionTime": "2019-04-30T15:33:29Z"
+		},
+		{
+			"checksumSHA1": "JgF260rC9YpWyY5WEljjimWLUXs=",
+			"path": "github.com/go-playground/locales/currency",
+			"revision": "630ebbb602847eba93e75ae38bbc7bb7abcf1ff3",
+			"revisionTime": "2019-04-30T15:33:29Z"
+		},
+		{
+			"checksumSHA1": "7QcjNTtW0Rc/5BPw1MPaQ6YNjso=",
+			"path": "github.com/go-playground/universal-translator",
+			"revision": "71201497bace774495daed26a3874fd339e0b538",
+			"revisionTime": "2017-03-27T19:17:03Z"
+		},
+		{
+			"checksumSHA1": "XT0bw8+pmoObI9jEq7zcPfLGh9g=",
+			"path": "github.com/go-sql-driver/mysql",
+			"revision": "972a708cf97995463843c08c8585b26997daf0e1",
+			"revisionTime": "2019-02-17T07:26:58Z"
 		},
 		{
 			"checksumSHA1": "Y2MOwzNZfl4NRNDbLCZa6sgx7O0=",
@@ -64,6 +95,12 @@
 			"revisionTime": "2019-02-10T07:39:40Z"
 		},
 		{
+			"checksumSHA1": "O5KNHAjNKSO1Wh5/4JSnp/KXu9U=",
+			"path": "github.com/leodido/go-urn",
+			"revision": "a67a23e1c1af3c66528573bb86a87246477277c1",
+			"revisionTime": "2018-12-04T09:21:09Z"
+		},
+		{
 			"checksumSHA1": "cNqzM4mpAwMb/lBIcMRZx+y7Dl4=",
 			"path": "github.com/lestrrat-go/file-rotatelogs",
 			"revision": "4ce522c92b91beadfd4c77f75dcc06ffe97cf9c6",
@@ -88,6 +125,13 @@
 			"revisionTime": "2019-02-17T22:52:12Z"
 		},
 		{
+			"checksumSHA1": "LuFv4/jlrmFNnDb/5SCSEPAM9vU=",
+			"origin": "github.com/stretchr/testify/vendor/github.com/pmezard/go-difflib/difflib",
+			"path": "github.com/pmezard/go-difflib/difflib",
+			"revision": "34c6fa2dc70986bccbbffcc6130f6920a924b075",
+			"revisionTime": "2019-03-04T09:57:49Z"
+		},
+		{
 			"checksumSHA1": "H/uL3j4L8U+//7NvzC+j5y8aaH4=",
 			"path": "github.com/rifflock/lfshook",
 			"revision": "b9218ef580f59a2e72dad1aa33d660150445d05a",
@@ -98,6 +142,12 @@
 			"path": "github.com/sirupsen/logrus",
 			"revision": "5521996833c095f5ac75d99687cef8ad344ded12",
 			"revisionTime": "2019-04-23T09:34:05Z"
+		},
+		{
+			"checksumSHA1": "IIsn0Wdi5rHU8xca+FzDd+YeYlc=",
+			"path": "github.com/stretchr/testify/assert",
+			"revision": "34c6fa2dc70986bccbbffcc6130f6920a924b075",
+			"revisionTime": "2019-03-04T09:57:49Z"
 		},
 		{
 			"checksumSHA1": "GtamqiJoL7PGHsN454AoffBFMa8=",
@@ -374,6 +424,12 @@
 			"path": "google.golang.org/grpc/tap",
 			"revision": "29adad9d713c49699aa06b073674a951ee22aee8",
 			"revisionTime": "2019-03-08T23:17:55Z"
+		},
+		{
+			"checksumSHA1": "ACzc7AkwLtNgKhqtj8V7SGUJgnw=",
+			"path": "gopkg.in/go-playground/validator.v9",
+			"revision": "46b4b1e301c24cac870ffcb4ba5c8a703d1ef475",
+			"revisionTime": "2019-03-31T13:31:25Z"
 		}
 	],
 	"rootPath": "go-open"

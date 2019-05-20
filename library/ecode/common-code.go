@@ -12,5 +12,6 @@ var (
 
 	SqlInvalid = Add(3000, "sql错误")
 
-	ParamsFormatError = Add(4000, "参数格式有误")
+	ParamsFormatError_1 = Add(4000, "参数格式有误(map)")
+	ParamsFormatError_2 = Add(4001, "参数格式有误(validate)")
 )

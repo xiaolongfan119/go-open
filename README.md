@@ -11,4 +11,5 @@
 - redis
 - breaker
 - retry
-- limit
+- limiter
+- balancer
