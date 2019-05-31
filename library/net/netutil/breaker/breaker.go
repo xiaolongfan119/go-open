@@ -1,7 +1,7 @@
 package breaker
 
 import (
-	"errors"
+	"go-open/library/ecode"
 	xtime "go-open/library/time"
 	"sync"
 	"time"
@@ -20,8 +20,8 @@ const defaultTimeout = time.Duration(30) * time.Second
 var defaultMaxConsecutiveFailures uint32 = 5 // close时， 最大连续错误 ---> 变成open
 
 var (
-	ErrTooManyRequests = errors.New("too many requests")
-	ErrOpenState       = errors.New("open state")
+	ErrTooManyRequests = ecode.BreakerTooManyRequests
+	ErrOpenState       = ecode.BreakerOpenState
 )
 
 type Counts struct {

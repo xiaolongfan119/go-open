@@ -1,10 +1,8 @@
 package hypnus
 
 import (
-	"context"
 	"encoding/json"
 	xtime "go-open/library/time"
-	"io/ioutil"
 	"net"
 	"net/http"
 	"strings"
@@ -70,16 +68,16 @@ func (client *Client) NewRequest(method, url string, params map[string]interface
 	return
 }
 
-func (client *Client) Get(c context.Context, url string, resp interface{}) error {
+// func (client *Client) Get(c context.Context, url string, resp interface{}) error {
 
-	req, err := client.NewRequest(http.MethodGet, url, make(map[string]interface{}))
-	if err != nil {
-		return err
-	}
+// 	req, err := client.NewRequest(http.MethodGet, url, make(map[string]interface{}))
+// 	if err != nil {
+// 		return err
+// 	}
 
-	response, _ := client.client.Do(req)
+// 	response, _ := client.client.Do(req)
 
-	body, _ := ioutil.ReadAll(response.Body)
+// 	// body, _ := ioutil.ReadAll(response.Body)
 
-	return nil
-}
+// 	return nil
+// }

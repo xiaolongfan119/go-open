@@ -14,4 +14,7 @@ var (
 
 	ParamsFormatError_1 = Add(4000, "参数格式有误(map)")
 	ParamsFormatError_2 = Add(4001, "参数格式有误(validate)")
+
+	BreakerTooManyRequests = Add(6000, "breaker too many requests")
+	BreakerOpenState       = Add(6001, "breaker open state")
 )
