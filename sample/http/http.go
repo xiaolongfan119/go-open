@@ -3,10 +3,13 @@ package http
 import (
 	hp "go-open/library/net/http/hypnus"
 	"go-open/sample/controller"
+	"net/http"
 )
 
 var (
 	userCtr = &controller.UserController{}
+
+	fileCtr = &controller.FileController{}
 )
 
 func Init(conf *hp.ServerConf) {
@@ -16,6 +19,9 @@ func Init(conf *hp.ServerConf) {
 }
 
 func route(engine *hp.Engine) {
+
+	engine.ServeFiles("/static/*filepath", http.Dir("./../assets"))
+
 	eg := engine.Group("/", nil)
 
 	eg.POST("/users/:id", func(c *hp.Context) {
@@ -28,6 +34,11 @@ func route(engine *hp.Engine) {
 		eg_1.POST("/Update/", userCtr.Update)
 		eg_1.GET("/Query/", userCtr.Query)
 		eg_1.DELETE("/Delete/:id", userCtr.Delete)
+	}
+
+	eg_2 := eg.Group("/file/", nil)
+	{
+		eg_2.POST("/upload", fileCtr.Upload)
 	}
 }
 

@@ -132,3 +132,7 @@ func (engine *Engine) ServeHTTP(w http.ResponseWriter, req *http.Request) {
 	log.Warn(fmt.Sprintf(">>>>>>>>> 404【 %s 】 %s", req.Method, req.URL.Path))
 	http.NotFound(w, req)
 }
+
+func (engine *Engine) ServeFiles(path string, root http.FileSystem) {
+	engine.router.ServeFiles(path, root)
+}
