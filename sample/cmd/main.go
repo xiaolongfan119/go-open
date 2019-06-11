@@ -8,6 +8,7 @@ import (
 )
 
 func main() {
+
 	conf.Init()
 	log.Init(conf.Conf.LogConfig)
 	model.Init(conf.Conf)

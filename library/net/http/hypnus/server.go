@@ -129,8 +129,17 @@ func (engine *Engine) ServeHTTP(w http.ResponseWriter, req *http.Request) {
 			return
 		}
 	}
-	log.Warn(fmt.Sprintf(">>>>>>>>> 404【 %s 】 %s", req.Method, req.URL.Path))
-	http.NotFound(w, req)
+	if req.Method == "OPTIONS" {
+		w.Header().Set("Access-Control-Allow-Origin", "*")             //允许访问所有域
+		w.Header().Add("Access-Control-Allow-Headers", "Content-Type") //header的类型
+		w.Header().Set("content-type", "application/json")             //返回数据格式是json
+		w.Header().Set("Access-Control-Allow-Methods", "GET,PUT,DELETE,POST,OPTIONS")
+		w.Header().Set("Access-Control-Max-Age", "1728000")
+		w.Write([]byte(""))
+	} else {
+		log.Warn(fmt.Sprintf(">>>>>>>>> 404【 %s 】 %s", req.Method, req.URL.Path))
+		http.NotFound(w, req)
+	}
 }
 
 func (engine *Engine) ServeFiles(path string, root http.FileSystem) {

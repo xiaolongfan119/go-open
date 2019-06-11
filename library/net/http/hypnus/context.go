@@ -5,6 +5,7 @@ import (
 	"encoding/json"
 	"math"
 	"net/http"
+	"strconv"
 
 	ecode "go-open/library/ecode"
 )
@@ -83,6 +84,22 @@ func (c *Context) Bind(obj interface{}) error {
 		return err
 	}
 	return nil
+}
+
+// 便捷方法
+func (c *Context) ToInt(str string) (int, error) {
+
+	var (
+		i   int
+		err error
+	)
+
+	if i, err = strconv.Atoi(str); err != nil {
+		c.Abort()
+		c.JSON(nil, ecode.ParamsInValid)
+		return 0, err
+	}
+	return i, nil
 }
 
 // response struct

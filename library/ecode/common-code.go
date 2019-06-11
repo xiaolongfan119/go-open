@@ -12,8 +12,12 @@ var (
 
 	SqlInvalid = Add(3000, "sql错误")
 
-	ParamsFormatError_1 = Add(4000, "参数格式有误(map)")
-	ParamsFormatError_2 = Add(4001, "参数格式有误(validate)")
+	ParamsFormatError_1  = Add(4000, "参数格式有误(map)")
+	ParamsFormatError_2  = Add(4001, "参数格式有误(validate)")
+	ParamsInValid        = Add(4002, "参数无效")
+	ParamsLogin          = Add(4003, "请输入账号或密码")
+	AccountOrPasswordErr = Add(4004, "账号或密码错误")
+	LoginNameExist       = Add(4005, "账号已存在")
 
 	BreakerTooManyRequests = Add(6000, "breaker too many requests")
 	BreakerOpenState       = Add(6001, "breaker open state")
