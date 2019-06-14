@@ -5,6 +5,7 @@ var (
 	ServerErr   = Add(500, "服务器错误")
 	Unknown     = Add(5000, "未知错误")
 	UnknownCode = Add(5001, "未知错误码")
+	BadRequest  = Add(5002, "bad request")
 
 	TokenEmpty   = Add(2000, "token为空")
 	TokenExpired = Add(2001, "token已过期")

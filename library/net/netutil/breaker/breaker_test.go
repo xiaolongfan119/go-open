@@ -3,6 +3,7 @@ package breaker
 import (
 	"fmt"
 	xtime "go-open/library/time"
+	"net/http"
 	"runtime"
 	"testing"
 	"time"
@@ -12,7 +13,7 @@ import (
 
 func fail(cb *CircuitBreaker) error {
 	msg := "fail"
-	_, err := cb.Execute(func() (interface{}, error) { return nil, fmt.Errorf(msg) })
+	_, err := cb.Execute(func() (*http.Response, error) { return nil, fmt.Errorf(msg) })
 	if err.Error() == msg {
 		return nil
 	}
@@ -20,7 +21,7 @@ func fail(cb *CircuitBreaker) error {
 }
 
 func success(cb *CircuitBreaker) error {
-	_, err := cb.Execute(func() (interface{}, error) { return nil, nil })
+	_, err := cb.Execute(func() (*http.Response, error) { return nil, nil })
 	return err
 }
 

@@ -3,6 +3,7 @@ package breaker
 import (
 	"go-open/library/ecode"
 	xtime "go-open/library/time"
+	"net/http"
 	"sync"
 	"time"
 )
@@ -124,7 +125,7 @@ func NewCircuitBreaker(c *BreakerConfig) *CircuitBreaker {
 	return breaker
 }
 
-func (breaker *CircuitBreaker) Execute(req func() (interface{}, error)) (interface{}, error) {
+func (breaker *CircuitBreaker) Execute(req func() (*http.Response, error)) (*http.Response, error) {
 	generation, err := breaker.beforeRequest()
 	if err != nil {
 		return nil, err
