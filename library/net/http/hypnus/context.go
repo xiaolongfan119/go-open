@@ -63,6 +63,7 @@ func (c *Context) JSON(data interface{}, err error) {
 	}
 	c.preHandleJson(obj)
 	ret, _ := json.Marshal(obj)
+	c.Writer.Header().Set("Access-Control-Allow-Origin", "*")
 	c.Writer.Write(ret)
 }
 
@@ -100,6 +101,19 @@ func (c *Context) ToInt(str string) (int, error) {
 		return 0, err
 	}
 	return i, nil
+}
+
+func (c *Context) ToInts(strs ...string) ([]int, error) {
+
+	var ints []int
+	for _, str := range strs {
+		if i, err := c.ToInt(str); err == nil {
+			ints = append(ints, i)
+		} else {
+			return nil, err
+		}
+	}
+	return ints, nil
 }
 
 // response struct

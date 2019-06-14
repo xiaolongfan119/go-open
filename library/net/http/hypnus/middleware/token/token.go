@@ -9,8 +9,14 @@ import (
 	jwt "github.com/dgrijalva/jwt-go"
 )
 
+var Instance Token
+
 type Token struct {
 	Conf *TokenConfig
+}
+
+func Init(conf *TokenConfig) {
+	Instance = Token{Conf: conf}
 }
 
 type TokenConfig struct {
