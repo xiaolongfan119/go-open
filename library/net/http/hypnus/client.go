@@ -1,18 +1,12 @@
 package hypnus
 
 import (
-	"context"
 	"encoding/json"
 	xtime "go-open/library/time"
-	"io/ioutil"
 	"net"
 	"net/http"
 	"strings"
 	"time"
-
-	ecode "go-open/library/ecode"
-
-	breaker "go-open/library/net/netutil/breaker"
 )
 
 /*
@@ -31,18 +25,16 @@ type ClientConfig struct {
 	// KeepAlive specifies the keep-alive period for an active network connection
 	KeepAlive xtime.Duration // 对应TCP的 tcp_keepalive_time
 
-	bkConfig *breaker.BreakerConfig
 }
 
 type Client struct {
-	conf    *ClientConfig
-	client  *http.Client
-	dialer  *net.Dialer
-	bkgroup *breaker.BreakerGroup
+	conf   *ClientConfig
+	client *http.Client
+	dialer *net.Dialer
 }
 
 func NewClient(c *ClientConfig) *Client {
-	client := &Client{conf: c}
+	client := &Client{}
 	client.setConfig(c)
 
 	client.dialer = &net.Dialer{
@@ -52,8 +44,6 @@ func NewClient(c *ClientConfig) *Client {
 
 	transport := &http.Transport{DialContext: client.dialer.DialContext}
 	client.client = &http.Client{Transport: transport}
-
-	client.bkgroup = breaker.NewBreakerGroup(c.bkConfig)
 
 	return client
 }
@@ -78,65 +68,16 @@ func (client *Client) NewRequest(method, url string, params map[string]interface
 	return
 }
 
-func (client *Client) Do(c context.Context, req *http.Request, resp interface{}) error {
+// func (client *Client) Get(c context.Context, url string, resp interface{}) error {
 
-	bs, err := client.Raw(c, req)
-	if err != nil {
-		return err
-	}
+// 	req, err := client.NewRequest(http.MethodGet, url, make(map[string]interface{}))
+// 	if err != nil {
+// 		return err
+// 	}
 
-	if err := json.Unmarshal(bs, resp); err != nil {
-		return err
-	}
+// 	response, _ := client.client.Do(req)
 
-	return nil
-}
+// 	// body, _ := ioutil.ReadAll(response.Body)
 
-func (client *Client) Raw(c context.Context, req *http.Request) (bs []byte, err error) {
-
-	var (
-		timeout time.Duration
-		cancel  func()
-	)
-
-	timeout = time.Duration(client.conf.TimeOut)
-	if deadline, ok := c.Deadline(); ok {
-		if _timeout := time.Until(deadline); _timeout < timeout {
-			timeout = _timeout
-			c, cancel = context.WithTimeout(c, timeout)
-			defer cancel()
-		}
-	}
-
-	req = req.WithContext(c)
-
-	bk := client.bkgroup.GetBreaker(req.URL.Path)
-	_resp, _err := bk.Execute(func() (*http.Response, error) {
-		resp, err := client.client.Do(req)
-		if err != nil {
-			return nil, err
-		}
-
-		if resp.StatusCode >= http.StatusBadRequest {
-			return nil, ecode.BadRequest
-		}
-
-		return resp, nil
-	})
-
-	if _err != nil {
-		return nil, _err
-	}
-
-	return ioutil.ReadAll(_resp.Body)
-}
-
-func (client *Client) Get(c context.Context, url string, resp interface{}) error {
-
-	req, err := client.NewRequest(http.MethodGet, url, make(map[string]interface{}))
-	if err != nil {
-		return err
-	}
-
-	return client.Do(c, req, resp)
-}
+// 	return nil
+// }

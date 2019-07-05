@@ -1,6 +1,7 @@
 package token
 
 import (
+	"fmt"
 	"go-open/library/ecode"
 	hp "go-open/library/net/http/hypnus"
 	xtime "go-open/library/time"
@@ -9,8 +10,14 @@ import (
 	jwt "github.com/dgrijalva/jwt-go"
 )
 
+var Instance Token
+
 type Token struct {
 	Conf *TokenConfig
+}
+
+func Init(conf *TokenConfig) {
+	Instance = Token{Conf: conf}
 }
 
 type TokenConfig struct {
@@ -35,6 +42,15 @@ func (t *Token) Verify(ctx *hp.Context) {
 		t.handleFailed(ctx, ecode.TokenInvalid)
 		return
 	}
+	mapClaims, ok := token.Claims.(jwt.MapClaims)
+	if !ok {
+		return
+	}
+
+	ctx.Req.Header = make(map[string]string)
+	userId := mapClaims["user"].(map[string]interface{})["id"]
+	ctx.Req.Header["userId"] = fmt.Sprintf("%v", userId)
+
 }
 
 func (t *Token) GenToken(payload interface{}) string {

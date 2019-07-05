@@ -98,7 +98,7 @@ func (c *cache) set(obj reflect.Type) (s *sinfo) {
 	for i := 0; i < tp.NumField(); i++ {
 		fd := new(field)
 		fd.StructField = tp.Field(i)
-		tag := fd.StructField.Tag.Get("body")
+		tag := fd.StructField.Tag.Get("json")
 		if tag == "" {
 			fd.name = fd.StructField.Name
 		} else {

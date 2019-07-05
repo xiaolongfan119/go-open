@@ -33,7 +33,7 @@ func (l ormLog) Print(v ...interface{}) {
 
 func NewMySQL(conf *DBConfig) (db *gorm.DB) {
 	var err error
-	path := fmt.Sprintf("%s:%s@/%s?charset=utf8&parseTime=True&loc=Local", conf.Username, conf.Password, conf.DBName)
+	path := fmt.Sprintf("%s:%s@(%s:%s)/%s?charset=utf8&parseTime=True&loc=Local", conf.Username, conf.Password, conf.Host, conf.Port, conf.DBName)
 	DB, err = gorm.Open("mysql", path)
 	if err != nil {
 		log.Info(fmt.Sprintf("db connect with path: %s   err: %v \n", path, err))

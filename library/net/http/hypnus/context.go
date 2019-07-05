@@ -30,9 +30,10 @@ type Context struct {
 	// so add the field to store parameters
 	Req struct {
 		// can't understand go use map[string][]string ???
-		Body  map[string]string
-		Query map[string]string
-		Param map[string]string
+		Header map[string]string
+		Body   map[string]string
+		Query  map[string]string
+		Param  map[string]string
 	}
 }
 
@@ -62,6 +63,7 @@ func (c *Context) JSON(data interface{}, err error) {
 	}
 	c.preHandleJson(obj)
 	ret, _ := json.Marshal(obj)
+	c.Writer.Header().Set("Access-Control-Allow-Origin", "*")
 	c.Writer.Write(ret)
 }
 
