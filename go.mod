@@ -1,4 +1,4 @@
-module go-open
+module github.com/ihornet/go-open
 
 go 1.12
 
