@@ -1,8 +1,11 @@
 package hypnus
 
 import (
+	"context"
 	"encoding/json"
+	"errors"
 	xtime "go-open/library/time"
+	"io/ioutil"
 	"net"
 	"net/http"
 	"strings"
@@ -27,8 +30,15 @@ type ClientConfig struct {
 
 }
 
+type Resp struct {
+	Code    int         `json:"code"`
+	Status  string      `json:"status"`
+	Message string      `json:"message"`
+	Data    interface{} `json:"data"`
+}
+
 type Client struct {
-	conf   *ClientConfig
+	conf   ClientConfig
 	client *http.Client
 	dialer *net.Dialer
 }
@@ -68,16 +78,42 @@ func (client *Client) NewRequest(method, url string, params map[string]interface
 	return
 }
 
-// func (client *Client) Get(c context.Context, url string, resp interface{}) error {
+func (client *Client) Get(c context.Context, url string) (resp interface{}, err error) {
 
-// 	req, err := client.NewRequest(http.MethodGet, url, make(map[string]interface{}))
-// 	if err != nil {
-// 		return err
-// 	}
+	req, err := client.NewRequest(http.MethodGet, url, make(map[string]interface{}))
+	if err != nil {
+		return
+	}
 
-// 	response, _ := client.client.Do(req)
+	return client.handleResponse(req)
+}
 
-// 	// body, _ := ioutil.ReadAll(response.Body)
+func (client *Client) Post(c context.Context, url string, params map[string]interface{}) (resp interface{}, err error) {
+	req, err := client.NewRequest(http.MethodPost, url, params)
+	if err != nil {
+		return
+	}
+	return client.handleResponse(req)
+}
 
-// 	return nil
-// }
+func (client *Client) handleResponse(req *http.Request) (resp interface{}, err error) {
+	response, err := client.client.Do(req)
+	if err != nil {
+		return
+	}
+	body, err := ioutil.ReadAll(response.Body)
+	if err != nil {
+		return
+	}
+
+	var _resp Resp
+	if err = json.Unmarshal(body, &_resp); err != nil {
+		return
+	}
+
+	if _resp.Status != "success" {
+		return nil, errors.New(_resp.Message)
+	}
+
+	return _resp.Data, nil
+}
