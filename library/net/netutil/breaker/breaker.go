@@ -1,10 +1,11 @@
 package breaker
 
 import (
-	"go-open/library/ecode"
-	xtime "go-open/library/time"
 	"sync"
 	"time"
+
+	xtime "github.com/ihornet/go-open/library/time"
+	"github.com/ihornet/go-openn/library/ecode"
 )
 
 type State int

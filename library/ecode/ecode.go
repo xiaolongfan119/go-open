@@ -2,9 +2,10 @@ package ecode
 
 import (
 	"fmt"
-	log "go-open/library/log"
 	"strconv"
 	"sync"
+
+	log "github.com/ihornet/go-open/library/log"
 )
 
 const (

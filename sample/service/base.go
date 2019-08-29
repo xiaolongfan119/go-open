@@ -1,7 +1,7 @@
 package service
 
 import "github.com/jinzhu/gorm"
-import "go-open/library/database/orm"
+import "github.com/ihornet/go-open/library/database/orm"
 
 type BaseService struct {
 	_DB *gorm.DB

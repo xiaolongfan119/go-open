@@ -2,10 +2,11 @@ package controller
 
 import (
 	"fmt"
-	hp "go-open/library/net/http/hypnus"
 	"io"
 	"os"
 	"time"
+
+	hp "github.com/ihornet/go-open/library/net/http/hypnus"
 )
 
 type FileController struct{}

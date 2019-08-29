@@ -3,8 +3,9 @@ package rpc
 import (
 	"context"
 	"fmt"
-	"go-open/library/ecode"
 	"runtime"
+
+	"github.com/ihornet/go-open/library/ecode"
 
 	"google.golang.org/grpc"
 	"google.golang.org/grpc/codes"

@@ -2,10 +2,11 @@ package orm
 
 import (
 	"fmt"
-	xtime "go-open/library/time"
 	"time"
 
-	log "go-open/library/log"
+	xtime "github.com/ihornet/go-open/library/time"
+
+	log "github.com/ihornet/go-open/library/log"
 
 	_ "github.com/go-sql-driver/mysql"
 	"github.com/jinzhu/gorm"

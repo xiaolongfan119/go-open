@@ -3,12 +3,14 @@ package hypnus
 import (
 	"encoding/json"
 	"fmt"
-	log "go-open/library/log"
-	xtime "go-open/library/time"
 	"net"
 	"net/http"
 	"net/url"
 	"strings"
+
+	xtime "github.com/ihornet/go-open/library/time"
+
+	log "github.com/ihornet/go-open/library/log"
 )
 
 type HandlerFunc func(*Context)

@@ -1,8 +1,9 @@
 package model
 
 import (
-	"go-open/library/database/orm"
-	"go-open/sample/conf"
+	"github.com/ihornet/go-open/library/database/orm"
+
+	"github.com/ihornet/go-open/sample/conf"
 )
 
 func Init(conf *conf.Config) {

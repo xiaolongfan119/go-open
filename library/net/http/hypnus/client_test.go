@@ -3,9 +3,10 @@ package hypnus
 import (
 	"context"
 	"fmt"
-	xtime "go-open/library/time"
 	"testing"
 	"time"
+
+	xtime "github.com/ihornet/go-open/library/time"
 )
 
 func TestGet(t *testing.T) {

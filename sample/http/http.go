@@ -1,9 +1,11 @@
 package http
 
 import (
-	hp "go-open/library/net/http/hypnus"
-	"go-open/sample/controller"
 	"net/http"
+
+	"github.com/ihornet/go-open/sample/controller"
+
+	hp "github.com/ihornet/go-open/library/net/http/hypnus"
 )
 
 var (

@@ -2,10 +2,11 @@ package breaker
 
 import (
 	"fmt"
-	xtime "go-open/library/time"
 	"runtime"
 	"testing"
 	"time"
+
+	xtime "github.com/ihornet/go-open/library/time"
 
 	"github.com/stretchr/testify/assert"
 )

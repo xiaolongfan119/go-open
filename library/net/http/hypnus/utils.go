@@ -2,11 +2,12 @@ package hypnus
 
 import (
 	"fmt"
-	logger "go-open/library/log"
 	"path"
 	"reflect"
 	"runtime"
 	"strconv"
+
+	logger "github.com/ihornet/go-open/library/log"
 )
 
 func JoinPaths(path1, path2 string) string {

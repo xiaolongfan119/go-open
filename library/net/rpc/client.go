@@ -2,10 +2,11 @@ package rpc
 
 import (
 	"context"
-	xtime "go-open/library/time"
 	"math"
 	"sync"
 	"time"
+
+	xtime "github.com/ihornet/go-open/library/time"
 
 	"github.com/pkg/errors"
 	"google.golang.org/grpc"

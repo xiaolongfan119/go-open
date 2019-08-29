@@ -2,11 +2,12 @@ package rpc
 
 import (
 	"context"
-	xtime "go-open/library/time"
 	"math"
 	"net"
 	"sync"
 	"time"
+
+	xtime "github.com/ihornet/go-open/library/time"
 
 	"google.golang.org/grpc/keepalive"
 	"google.golang.org/grpc/reflection"

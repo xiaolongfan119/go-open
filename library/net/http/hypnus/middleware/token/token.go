@@ -2,10 +2,13 @@ package token
 
 import (
 	"fmt"
-	"go-open/library/ecode"
-	hp "go-open/library/net/http/hypnus"
-	xtime "go-open/library/time"
 	"time"
+
+	xtime "github.com/ihornet/go-open/library/time"
+
+	hp "github.com/ihornet/go-open/library/net/http/hypnus"
+
+	"github.com/ihornet/go-open/library/ecode"
 
 	jwt "github.com/dgrijalva/jwt-go"
 )

@@ -1,8 +1,9 @@
 package model
 
 import (
-	"go-open/library/database/orm"
 	"time"
+
+	"github.com/ihornet/go-open/library/database/orm"
 )
 
 type User struct {

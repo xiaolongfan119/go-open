@@ -1,9 +1,10 @@
 package hypnus
 
 import (
-	"go-open/library/ecode"
 	"net"
 	"strconv"
+
+	"github.com/ihornet/go-open/library/ecode"
 )
 
 // 便捷方法

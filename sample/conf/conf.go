@@ -2,13 +2,14 @@ package conf
 
 import (
 	"flag"
-	"go-open/library/database/orm"
 
-	"go-open/library/net/http/hypnus"
+	"github.com/ihornet/go-open/library/database/orm"
 
-	jwt "go-open/library/net/http/hypnus/middleware/token"
+	"github.com/ihornet/go-open/library/net/http/hypnus"
 
-	log "go-open/library/log"
+	jwt "github.com/ihornet/go-open/library/net/http/hypnus/middleware/token"
+
+	log "github.com/ihornet/go-open/library/log"
 
 	"github.com/BurntSushi/toml"
 )
