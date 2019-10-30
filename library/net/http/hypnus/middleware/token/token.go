@@ -56,9 +56,13 @@ func (t *Token) Verify(ctx *hp.Context) {
 	param2 := mapClaims["user"].(map[string]interface{})["param2"]
 
 	ctx.Req.Header["userId"] = fmt.Sprintf("%v", userId)
-	ctx.Req.Header["param1"] = fmt.Sprintf("%v", param1)
-	ctx.Req.Header["param2"] = fmt.Sprintf("%v", param2)
 
+	if param1 != nil {
+		ctx.Req.Header["param1"] = fmt.Sprintf("%v", param1)
+	}
+	if param2 != nil {
+		ctx.Req.Header["param2"] = fmt.Sprintf("%v", param2)
+	}
 }
 
 func (t *Token) GenToken(payload interface{}) string {
