@@ -52,7 +52,12 @@ func (t *Token) Verify(ctx *hp.Context) {
 
 	ctx.Req.Header = make(map[string]string)
 	userId := mapClaims["user"].(map[string]interface{})["id"]
+	param1 := mapClaims["user"].(map[string]interface{})["param1"]
+	param2 := mapClaims["user"].(map[string]interface{})["param2"]
+
 	ctx.Req.Header["userId"] = fmt.Sprintf("%v", userId)
+	ctx.Req.Header["param1"] = fmt.Sprintf("%v", param1)
+	ctx.Req.Header["param2"] = fmt.Sprintf("%v", param2)
 
 }
 
