@@ -101,7 +101,7 @@ func (t *Token) VerifyRedis(ctx *hp.Context) {
 		return
 	}
 
-	wand := ctx.Request.Header.Get("wand")
+	wand := ctx.Req.Header["wand"]
 	userId := ctx.Req.Header["userId"]
 	key := fmt.Sprintf("%s:user:%s:token", hp.ServerName, userId)
 
