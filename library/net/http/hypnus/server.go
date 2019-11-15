@@ -15,6 +15,8 @@ import (
 
 type HandlerFunc func(*Context)
 
+var ServerName = ""
+
 type Engine struct {
 	RouterGroup
 	conf   *ServerConf
@@ -26,6 +28,7 @@ type ServerConf struct {
 	Host         string
 	ReadTimeout  xtime.Duration
 	WriteTimeout xtime.Duration
+	Name         string
 }
 
 func DefaultServer(conf *ServerConf) *Engine {
@@ -44,6 +47,9 @@ func NewServer(conf *ServerConf) *Engine {
 	}
 
 	engine.RouterGroup.engine = engine
+
+	ServerName = conf.Name
+
 	return engine
 }
 

@@ -2,10 +2,13 @@ package token
 
 import (
 	"fmt"
+	"sync"
+	"sync/atomic"
 	"time"
 
 	xtime "github.com/ihornet/go-open/library/time"
 
+	redis "github.com/ihornet/go-open/library/database/redis"
 	hp "github.com/ihornet/go-open/library/net/http/hypnus"
 
 	"github.com/ihornet/go-open/library/ecode"
@@ -14,6 +17,12 @@ import (
 )
 
 var Instance Token
+
+var (
+	now   int64
+	mu    sync.Mutex
+	index int64
+)
 
 type Token struct {
 	Conf *TokenConfig
@@ -56,6 +65,7 @@ func (t *Token) Verify(ctx *hp.Context) {
 	param2 := mapClaims["user"].(map[string]interface{})["param2"]
 
 	ctx.Req.Header["userId"] = fmt.Sprintf("%v", userId)
+	ctx.Req.Header["wand"] = mapClaims["wand"].(string)
 
 	if param1 != nil {
 		ctx.Req.Header["param1"] = fmt.Sprintf("%v", param1)
@@ -70,11 +80,33 @@ func (t *Token) GenToken(payload interface{}) string {
 	claims := make(jwt.MapClaims)
 	claims["exp"] = time.Now().Add(time.Duration(t.Conf.Expiration)).Unix()
 	claims["user"] = payload
+	claims["wand"] = getToken()
 	token.Claims = claims
 
 	// 把token已约定的加密方式和加密秘钥加密，当然也可以使用不对称加密
 	tokenString, _ := token.SignedString([]byte(t.Conf.Secret))
 	return tokenString
+}
+
+// 在redis查找token黑名单, 如果存在就错误
+func (t *Token) VerifyRedis(ctx *hp.Context) {
+
+	if redis.RedisClient == nil {
+		return
+	}
+
+	wand := ctx.Request.Header.Get("wand")
+	v, _ := redis.RedisClient.Get(wand).Result()
+
+	if v == "-" {
+		t.handleFailed(ctx, ecode.TokenInvalid2)
+	}
+}
+
+// 将token加入redis黑名单
+func (t *Token) DisableToken(ctx *hp.Context) {
+	wand := ctx.Request.Header.Get("wand")
+	redis.RedisClient.Set(wand, "-", time.Duration(t.Conf.Expiration))
 }
 
 func (t *Token) handleFailed(ctx *hp.Context, err ecode.Code) {
@@ -84,4 +116,12 @@ func (t *Token) handleFailed(ctx *hp.Context, err ecode.Code) {
 
 func (t *Token) getValidationKey(*jwt.Token) (interface{}, error) {
 	return []byte(t.Conf.Secret), nil
+}
+
+func getToken() string {
+	if now == 0 {
+		now = time.Now().UnixNano() / 1e6
+	}
+	atomic.AddInt64(&index, 1)
+	return fmt.Sprintf("%s:bltoken:%d-%d", hp.ServerName, now, index)
 }

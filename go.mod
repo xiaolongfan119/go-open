@@ -7,6 +7,7 @@ require (
 	github.com/dgrijalva/jwt-go v0.0.0-20180921172315-3af4c746e1c2
 	github.com/go-playground/locales v0.0.0-20190430153329-630ebbb60284
 	github.com/go-playground/universal-translator v0.0.0-20170327191703-71201497bace
+	github.com/go-redis/redis v6.15.6+incompatible
 	github.com/go-sql-driver/mysql v0.0.0-20190217072658-972a708cf979
 	github.com/golang/protobuf v0.0.0-20190228151929-b5d812f8a370
 	github.com/jinzhu/gorm v0.0.0-20190210073940-906799fef2f8
