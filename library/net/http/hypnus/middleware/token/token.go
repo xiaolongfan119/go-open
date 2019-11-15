@@ -113,13 +113,12 @@ func (t *Token) VerifyRedis(ctx *hp.Context) {
 }
 
 // 将token加入redis黑名单
-func (t *Token) DisableToken(ctx *hp.Context) {
+func (t *Token) DisableToken(userId int) {
 
 	if redis.RedisClient == nil {
 		return
 	}
 
-	userId := ctx.Req.Header["userId"]
 	key := fmt.Sprintf("%s:user:%s:token", hp.ServerName, userId)
 
 	redis.RedisClient.Del(key)
