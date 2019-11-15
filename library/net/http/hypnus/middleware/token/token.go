@@ -119,7 +119,7 @@ func (t *Token) DisableToken(userId int) {
 		return
 	}
 
-	key := fmt.Sprintf("%s:user:%s:token", hp.ServerName, userId)
+	key := fmt.Sprintf("%s:user:%d:token", hp.ServerName, userId)
 
 	redis.RedisClient.Del(key)
 
