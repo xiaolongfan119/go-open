@@ -2,6 +2,7 @@ package token
 
 import (
 	"fmt"
+	"reflect"
 	"sync"
 	"sync/atomic"
 	"time"
@@ -87,10 +88,7 @@ func (t *Token) GenToken(payload interface{}) string {
 	tokenString, _ := token.SignedString([]byte(t.Conf.Secret))
 
 	if redis.RedisClient != nil {
-		if userId, ok := payload.(map[string]interface{})["id"]; ok == true {
-			key := fmt.Sprintf("%s:user:%s:token", hp.ServerName, userId)
-			redis.RedisClient.Set(key, claims["wand"], time.Duration(t.Conf.Expiration))
-		}
+		go t.AddToken(payload, claims["wand"].(string))
 	}
 
 	return tokenString
@@ -127,6 +125,18 @@ func (t *Token) DisableToken(ctx *hp.Context) {
 	redis.RedisClient.Del(key)
 
 	//redis.RedisClient.Set(key, "-", time.Duration(t.Conf.Expiration))
+}
+
+func (t *Token) AddToken(payload interface{}, wand string) {
+
+	_payload := reflect.ValueOf(payload)
+	isValid := _payload.FieldByName("Id").IsValid()
+	if isValid {
+		userId := _payload.FieldByName("Id").Interface()
+		key := fmt.Sprintf("%s:user:%d:token", hp.ServerName, userId.(int))
+		redis.RedisClient.Set(key, wand, time.Duration(t.Conf.Expiration))
+	}
+
 }
 
 func (t *Token) handleFailed(ctx *hp.Context, err ecode.Code) {
