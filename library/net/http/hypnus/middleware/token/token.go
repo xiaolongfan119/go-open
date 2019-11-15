@@ -85,10 +85,18 @@ func (t *Token) GenToken(payload interface{}) string {
 
 	// 把token已约定的加密方式和加密秘钥加密，当然也可以使用不对称加密
 	tokenString, _ := token.SignedString([]byte(t.Conf.Secret))
+
+	if redis.RedisClient != nil {
+		if userId, ok := payload.(map[string]interface{})["id"]; ok == true {
+			key := fmt.Sprintf("%s:user:%s:token", hp.ServerName, userId)
+			redis.RedisClient.Set(key, claims["wand"], time.Duration(t.Conf.Expiration))
+		}
+	}
+
 	return tokenString
 }
 
-// 在redis查找token黑名单, 如果存在就错误
+// 在redis查找token, 如果不存在就错误
 func (t *Token) VerifyRedis(ctx *hp.Context) {
 
 	if redis.RedisClient == nil {
@@ -96,17 +104,29 @@ func (t *Token) VerifyRedis(ctx *hp.Context) {
 	}
 
 	wand := ctx.Request.Header.Get("wand")
-	v, _ := redis.RedisClient.Get(wand).Result()
+	userId := ctx.Req.Header["userId"]
+	key := fmt.Sprintf("%s:user:%s:token", hp.ServerName, userId)
 
-	if v == "-" {
+	v, _ := redis.RedisClient.Get(key).Result()
+
+	if v != wand {
 		t.handleFailed(ctx, ecode.TokenInvalid2)
 	}
 }
 
 // 将token加入redis黑名单
 func (t *Token) DisableToken(ctx *hp.Context) {
-	wand := ctx.Request.Header.Get("wand")
-	redis.RedisClient.Set(wand, "-", time.Duration(t.Conf.Expiration))
+
+	if redis.RedisClient == nil {
+		return
+	}
+
+	userId := ctx.Req.Header["userId"]
+	key := fmt.Sprintf("%s:user:%s:token", hp.ServerName, userId)
+
+	redis.RedisClient.Del(key)
+
+	//redis.RedisClient.Set(key, "-", time.Duration(t.Conf.Expiration))
 }
 
 func (t *Token) handleFailed(ctx *hp.Context, err ecode.Code) {
@@ -123,5 +143,5 @@ func getToken() string {
 		now = time.Now().UnixNano() / 1e6
 	}
 	atomic.AddInt64(&index, 1)
-	return fmt.Sprintf("%s:bltoken:%d-%d", hp.ServerName, now, index)
+	return fmt.Sprintf("%d-%d", now, index)
 }
