@@ -85,8 +85,8 @@ func (engine *Engine) addRoute(method, path string, handlers ...HandlerFunc) {
 
 func (engine *Engine) handleContext(c *Context) {
 	engine.parseReqParams(c)
-	log.Info(fmt.Sprintf(">>>>>>>>>>>>【 %s 】 %s ### param: %v ### query: %v ### body: %v",
-		c.Request.Method, c.Request.URL.Path, c.Req.Param, c.Req.Query, c.Req.Body))
+	// log.Info(fmt.Sprintf(">>>>>>>>>>>>【 %s 】 %s ### param: %v ### query: %v ### body: %v",
+	// 	c.Request.Method, c.Request.URL.Path, c.Req.Param, c.Req.Query, c.Req.Body))
 	// iterate handlers
 	c.Next()
 }
