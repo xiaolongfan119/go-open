@@ -146,10 +146,10 @@ func (engine *Engine) ServeHTTP(w http.ResponseWriter, req *http.Request) {
 		w.Header().Set("Access-Control-Max-Age", "1728000")
 		w.Write([]byte(""))
 	} else {
-		log.Warn(fmt.Sprintf(">>>>>>>>> 404【 %s 】 %s", req.Method, req.URL.Path))
 		if strings.Index(req.URL.Path, "/debug/pprof/") >= 0 {
 			ProcessInput(req.URL.Path, w)
 		} else {
+			log.Warn(fmt.Sprintf(">>>>>>>>> 404【 %s 】 %s", req.Method, req.URL.Path))
 			http.NotFound(w, req)
 		}
 	}

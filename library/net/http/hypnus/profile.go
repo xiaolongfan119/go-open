@@ -29,17 +29,17 @@ func ProcessInput(input string, w io.Writer) {
 	case "/debug/pprof/heap":
 		p := pprof.Lookup("heap")
 		p.WriteTo(w, 2)
-	case "/debug/pprof/goroutine/threadcreate":
+	case "/debug/pprof/threadcreate":
 		p := pprof.Lookup("threadcreate")
 		p.WriteTo(w, 2)
-	case "/debug/pprof/goroutine/block":
+	case "/debug/pprof/block":
 		p := pprof.Lookup("block")
 		p.WriteTo(w, 2)
-	case "/debug/pprof/goroutine/cpuprof":
+	case "/debug/pprof/cpuprof":
 		GetCPUProfile(w)
-	case "/debug/pprof/goroutine/memprof":
+	case "/debug/pprof/memprof":
 		MemProf(w)
-	case "/debug/pprof/goroutine/summary":
+	case "/debug/pprof/summary":
 		PrintGCSummary(w)
 	}
 }
