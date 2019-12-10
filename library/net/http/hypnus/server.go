@@ -8,8 +8,6 @@ import (
 	"net/url"
 	"strings"
 
-	_ "net/http/pprof"
-
 	xtime "github.com/ihornet/go-open/library/time"
 
 	log "github.com/ihornet/go-open/library/log"
@@ -149,7 +147,9 @@ func (engine *Engine) ServeHTTP(w http.ResponseWriter, req *http.Request) {
 		w.Write([]byte(""))
 	} else {
 		log.Warn(fmt.Sprintf(">>>>>>>>> 404【 %s 】 %s", req.Method, req.URL.Path))
-		if req.URL.Path != "/debug/pprof/" {
+		if strings.Index(req.URL.Path, "/debug/pprof/") >= 0 {
+			ProcessInput(req.URL.Path, w)
+		} else {
 			http.NotFound(w, req)
 		}
 	}
