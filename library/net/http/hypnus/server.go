@@ -149,7 +149,7 @@ func (engine *Engine) ServeHTTP(w http.ResponseWriter, req *http.Request) {
 		w.Write([]byte(""))
 	} else {
 		log.Warn(fmt.Sprintf(">>>>>>>>> 404【 %s 】 %s", req.Method, req.URL.Path))
-		if req.URL.Path != "/debug/" {
+		if req.URL.Path != "/debug/pprof/" {
 			http.NotFound(w, req)
 		}
 	}
