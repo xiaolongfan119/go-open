@@ -8,6 +8,7 @@ import (
 	"net/url"
 	"strings"
 
+	_ "net/http/pprof"
 	xtime "github.com/ihornet/go-open/library/time"
 
 	log "github.com/ihornet/go-open/library/log"
