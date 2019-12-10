@@ -9,6 +9,7 @@ import (
 	"strings"
 
 	_ "net/http/pprof"
+
 	xtime "github.com/ihornet/go-open/library/time"
 
 	log "github.com/ihornet/go-open/library/log"
@@ -148,7 +149,9 @@ func (engine *Engine) ServeHTTP(w http.ResponseWriter, req *http.Request) {
 		w.Write([]byte(""))
 	} else {
 		log.Warn(fmt.Sprintf(">>>>>>>>> 404【 %s 】 %s", req.Method, req.URL.Path))
-		http.NotFound(w, req)
+		if req.URL.Path != "/debug/" {
+			http.NotFound(w, req)
+		}
 	}
 }
 
