@@ -105,11 +105,15 @@ func (t *Token) VerifyRedis(ctx *hp.Context) {
 	userId := ctx.Req.Header["userId"]
 	key := fmt.Sprintf("%s:user:%s:token", hp.ServerName, userId)
 
-	v, _ := redis.RedisClient.Get(key).Result()
+	//	v, _ := redis.RedisClient.Get(key).Result()
 
-	if v != wand {
+	if b, _ := redis.RedisClient.SIsMember(key, wand).Result(); !b {
 		t.handleFailed(ctx, ecode.TokenInvalid2)
 	}
+
+	// if v != wand {
+	// 	t.handleFailed(ctx, ecode.TokenInvalid2)
+	// }
 }
 
 // 将token加入redis黑名单
@@ -133,9 +137,13 @@ func (t *Token) AddToken(payload interface{}, wand string) {
 	if isValid {
 		userId := _payload.FieldByName("Id").Interface()
 		key := fmt.Sprintf("%s:user:%d:token", hp.ServerName, userId.(int))
-		redis.RedisClient.Set(key, wand, time.Duration(t.Conf.Expiration))
-	}
+		now := time.Now()
+		diff := 24*60*60 - now.Hour()*60*60 - now.Minute()*60 - now.Second()
+		//redis.RedisClient.Set(key, wand, time.Duration(t.Conf.Expiration))
 
+		redis.RedisClient.SAdd(key, wand)
+		redis.RedisClient.Expire(key, time.Second*time.Duration(diff))
+	}
 }
 
 func (t *Token) handleFailed(ctx *hp.Context, err ecode.Code) {
