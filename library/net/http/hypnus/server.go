@@ -85,8 +85,12 @@ func (engine *Engine) addRoute(method, path string, handlers ...HandlerFunc) {
 
 func (engine *Engine) handleContext(c *Context) {
 	engine.parseReqParams(c)
-	log.Info(fmt.Sprintf(">>>>>>>>>>>>【 %s 】 %s ### param: %v ### query: %v ### body: %v",
-		c.Request.Method, c.Request.URL.Path, c.Req.Param, c.Req.Query, c.Req.Body))
+
+	if c.Request.URL.Path != "ping" {
+		log.Info(">>>>>>>>>>>>【 ", c.Request.Method, " 】", c.Request.URL.Path,
+			" ### param: ", c.Req.Param, " ### query: ", c.Req.Query, " ### body: ", c.Req.Body)
+	}
+
 	// iterate handlers
 	c.Next()
 }
@@ -149,8 +153,12 @@ func (engine *Engine) ServeHTTP(w http.ResponseWriter, req *http.Request) {
 		if strings.Index(req.URL.Path, "/debug/pprof/") >= 0 {
 			ProcessInput(req.URL.Path, w)
 		} else {
-			log.Warn(fmt.Sprintf(">>>>>>>>> 404【 %s 】 %s", req.Method, req.URL.Path))
-			http.NotFound(w, req)
+			if req.URL.Path == "ping" {
+				w.Write([]byte("pong"))
+			} else {
+				log.Warn(fmt.Sprintf(">>>>>>>>> 404【 %s 】 %s", req.Method, req.URL.Path))
+				http.NotFound(w, req)
+			}
 		}
 	}
 }
