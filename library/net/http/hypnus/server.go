@@ -86,7 +86,7 @@ func (engine *Engine) addRoute(method, path string, handlers ...HandlerFunc) {
 func (engine *Engine) handleContext(c *Context) {
 	engine.parseReqParams(c)
 
-	if c.Request.URL.Path != "ping" {
+	if c.Request.URL.Path != "/ping" {
 		log.Info(">>>>>>>>>>>>【 ", c.Request.Method, " 】", c.Request.URL.Path,
 			" ### param: ", c.Req.Param, " ### query: ", c.Req.Query, " ### body: ", c.Req.Body)
 	}
@@ -153,7 +153,7 @@ func (engine *Engine) ServeHTTP(w http.ResponseWriter, req *http.Request) {
 		if strings.Index(req.URL.Path, "/debug/pprof/") >= 0 {
 			ProcessInput(req.URL.Path, w)
 		} else {
-			if req.URL.Path == "ping" {
+			if req.URL.Path == "/ping" {
 				w.Write([]byte("pong"))
 			} else {
 				log.Warn(fmt.Sprintf(">>>>>>>>> 404【 %s 】 %s", req.Method, req.URL.Path))
