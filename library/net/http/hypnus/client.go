@@ -112,7 +112,7 @@ func (client *Client) handleResponse(req *http.Request) (resp interface{}, err e
 		return
 	}
 
-	if _resp.Status != "success" {
+	if _resp.Status != "success" && _resp.Status != "0" {
 		return nil, errors.New(_resp.Message)
 	}
 
