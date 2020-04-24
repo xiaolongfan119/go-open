@@ -102,6 +102,7 @@ func (client *Client) handleResponse(req *http.Request) (resp interface{}, err e
 	if err != nil {
 		return
 	}
+	defer response.Body.Close()
 	body, err := ioutil.ReadAll(response.Body)
 	if err != nil {
 		return

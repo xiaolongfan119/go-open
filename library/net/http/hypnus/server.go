@@ -150,7 +150,7 @@ func (engine *Engine) ServeHTTP(w http.ResponseWriter, req *http.Request) {
 		w.Header().Set("Access-Control-Max-Age", "1728000")
 		w.Write([]byte(""))
 	} else {
-		if strings.Index(req.URL.Path, "/debug/pprof/") >= 0 {
+		if strings.Contains(req.URL.Path, "/debug/pprof/") {
 			ProcessInput(req.URL.Path, w)
 		} else {
 			if req.URL.Path == "/ping" {

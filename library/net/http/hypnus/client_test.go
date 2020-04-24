@@ -15,10 +15,15 @@ func TestGet(t *testing.T) {
 
 	client := NewClient(&config)
 
-	client.Get(context.TODO(), "http://127.0.0.1:9005/catalog2s/")
+	client.Get(context.TODO(), "http://127.0.0.1:9002/experts/")
 
-	data, err := client.Post(context.TODO(), "http://106.12.78.150:9002/users/login", map[string]interface{}{"userName": "1234", "password": "1234"})
-	fmt.Println(err)
-	fmt.Println(data)
-
+	for i := 0; i < 10001; i++ {
+		data, err := client.Post(context.TODO(), "http://127.0.0.1:9002/users/login", map[string]interface{}{"userName": "admin", "password": "hys_1234"})
+		fmt.Println(err)
+		fmt.Println(data)
+		if i == 10000 {
+			println("===end")
+		}
+	}
+	println("===end")
 }

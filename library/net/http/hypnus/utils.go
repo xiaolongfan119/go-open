@@ -45,16 +45,16 @@ func Recovery() {
 
 func convertMap2StrMap(data map[string]interface{}) map[string]string {
 	m := make(map[string]string)
-	for k, v := range data {
-		switch v.(type) {
+	for k := range data {
+		switch data[k].(type) {
 		case string:
-			m[k] = v.(string)
+			m[k] = data[k].(string)
 		case bool:
-			m[k] = strconv.FormatBool(v.(bool))
+			m[k] = strconv.FormatBool(data[k].(bool))
 		case float64:
-			m[k] = strconv.FormatFloat(v.(float64), 'f', -1, 64)
+			m[k] = strconv.FormatFloat(data[k].(float64), 'f', -1, 64)
 		default:
-			fmt.Printf("%v", reflect.TypeOf(v))
+			fmt.Printf("%v", reflect.TypeOf(data[k]))
 		}
 	}
 	return m
