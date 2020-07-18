@@ -56,8 +56,8 @@ func (c *Context) JSON(data interface{}, err error) {
 
 	bcode := ecode.Cause(err)
 	obj := &respObj{
-		Code:    bcode.Code(),
-		Status:  bcode.Status(),
+		Status:  bcode.Code(),
+		Success: bcode.Status(),
 		Message: bcode.Message(),
 		Data:    data,
 	}
@@ -68,11 +68,11 @@ func (c *Context) JSON(data interface{}, err error) {
 }
 
 func (c *Context) preHandleJson(obj *respObj) {
-	if obj.Status == ecode.SUCCESS && obj.Data == nil {
+	if obj.Success == ecode.SUCCESS && obj.Data == nil {
 		obj.Data = struct {
 			Success bool `json:"success"`
 		}{Success: true}
-	} else if obj.Status == ecode.FAILED {
+	} else if obj.Success == ecode.FAILED {
 		obj.Data = nil
 	}
 }
@@ -89,8 +89,8 @@ func (c *Context) Bind(obj interface{}) error {
 
 // response struct
 type respObj struct {
-	Code    int         `json:"code"`
-	Status  string      `json:"status"`
+	Success bool        `json:"success"`
+	Status  int         `json:"status"`
 	Message string      `json:"message"`
 	Data    interface{} `json:"data,omitempty"`
 }

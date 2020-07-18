@@ -1,7 +1,7 @@
 package ecode
 
 var (
-	OK          = Add(0, "")
+	OK          = Add(200, "")
 	ServerErr   = Add(500, "服务器错误")
 	Unknown     = Add(5000, "未知错误")
 	UnknownCode = Add(5001, "未知错误码")

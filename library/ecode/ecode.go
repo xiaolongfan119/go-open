@@ -9,8 +9,8 @@ import (
 )
 
 const (
-	SUCCESS = "success"
-	FAILED  = "failed"
+	SUCCESS = true
+	FAILED  = false
 )
 
 var (
@@ -26,7 +26,7 @@ func (c Code) Error() string {
 }
 
 func (c Code) Code() int { return int(c) }
-func (c Code) Status() string {
+func (c Code) Status() bool {
 	if c == OK {
 		return SUCCESS
 	}
