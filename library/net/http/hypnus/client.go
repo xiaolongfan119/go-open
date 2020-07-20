@@ -10,7 +10,7 @@ import (
 	"strings"
 	"time"
 
-	xtime "github.com/ihornet/go-open/library/time"
+	xtime "github.com/ihornet/go-open/v2/library/time"
 )
 
 /*

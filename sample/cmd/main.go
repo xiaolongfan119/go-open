@@ -1,13 +1,13 @@
 package main
 
 import (
-	"github.com/ihornet/go-open/sample/model"
+	"github.com/ihornet/go-open/v2/sample/model"
 
-	http "github.com/ihornet/go-open/sample/http"
+	http "github.com/ihornet/go-open/v2/sample/http"
 
-	"github.com/ihornet/go-open/sample/conf"
+	"github.com/ihornet/go-open/v2/sample/conf"
 
-	log "github.com/ihornet/go-open/library/log"
+	log "github.com/ihornet/go-open/v2/library/log"
 )
 
 func main() {

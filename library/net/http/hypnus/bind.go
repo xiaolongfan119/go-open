@@ -1,7 +1,7 @@
 package hypnus
 
 import (
-	"github.com/ihornet/go-open/library/ecode"
+	"github.com/ihornet/go-open/v2/library/ecode"
 )
 
 var Validator = &defaultValidator{}

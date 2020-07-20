@@ -8,9 +8,9 @@ import (
 	"net/url"
 	"strings"
 
-	xtime "github.com/ihornet/go-open/library/time"
+	xtime "github.com/ihornet/go-open/v2/library/time"
 
-	log "github.com/ihornet/go-open/library/log"
+	log "github.com/ihornet/go-open/v2/library/log"
 )
 
 type HandlerFunc func(*Context)

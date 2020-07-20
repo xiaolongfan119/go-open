@@ -4,7 +4,7 @@ import (
 	"net"
 	"strconv"
 
-	"github.com/ihornet/go-open/library/ecode"
+	"github.com/ihornet/go-open/v2/library/ecode"
 )
 
 // 便捷方法

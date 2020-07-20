@@ -1,10 +1,10 @@
 package controller
 
 import (
-	"github.com/ihornet/go-open/sample/model"
-	"github.com/ihornet/go-open/sample/service"
+	"github.com/ihornet/go-open/v2/sample/model"
+	"github.com/ihornet/go-open/v2/sample/service"
 
-	hp "github.com/ihornet/go-open/library/net/http/hypnus"
+	hp "github.com/ihornet/go-open/v2/library/net/http/hypnus"
 )
 
 var userSrv = &service.UserService{}

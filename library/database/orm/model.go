@@ -3,7 +3,7 @@ package orm
 import "time"
 
 type Model struct {
-	ID        int       `gorm:"primary_key" json:"id"`
-	CreatedAt time.Time `gorm:"column:createAt" json:"-"`
-	UpdatedAt time.Time `gorm:"column:updatedAt" json:"-"`
+	ID             int       `gorm:"primary_key" json:"id"`
+	CreateTime     time.Time `gorm:"column:createTime" json:"-"`
+	LastUpdateTime time.Time `gorm:"column:lastUpdateTime" json:"-"`
 }

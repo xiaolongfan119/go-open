@@ -7,7 +7,7 @@ import (
 	"sync"
 	"time"
 
-	xtime "github.com/ihornet/go-open/library/time"
+	xtime "github.com/ihornet/go-open/v2/library/time"
 
 	"google.golang.org/grpc/keepalive"
 	"google.golang.org/grpc/reflection"

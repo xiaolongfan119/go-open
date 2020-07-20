@@ -1,12 +1,12 @@
 package verify
 
 import (
-	hp "go-open/library/net/http/hypnus"
+	"github.com/ihornet/go-open/v2/library/net/http/hypnus"
 )
 
 type Verify struct {
 }
 
-func (v *Verify) verify(ctx *hp.Context) {
-	
+func (v *Verify) verify(ctx *hypnus.Context) {
+
 }

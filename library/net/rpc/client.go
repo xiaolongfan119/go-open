@@ -6,7 +6,7 @@ import (
 	"sync"
 	"time"
 
-	xtime "github.com/ihornet/go-open/library/time"
+	xtime "github.com/ihornet/go-open/v2/library/time"
 
 	"github.com/pkg/errors"
 	"google.golang.org/grpc"
