@@ -106,6 +106,7 @@ func (engine *Engine) parseReqParams(c *Context) {
 		temp := make(map[string]interface{})
 		json.NewDecoder(req.Body).Decode(&temp)
 		c.Req.Body = convertMap2StrMap(temp)
+		c.Req.Body2 = temp
 	//	json.NewDecoder(req.Body).Decode(&c.Req.Body)
 	case strings.Contains(cType, "application/x-www-form-urlencoded"):
 		req.ParseForm()

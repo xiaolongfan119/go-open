@@ -32,6 +32,7 @@ type Context struct {
 		// can't understand go use map[string][]string ???
 		Header map[string]string
 		Body   map[string]string
+		Body2  map[string]interface{}
 		Query  map[string]string
 		Param  map[string]string
 	}
