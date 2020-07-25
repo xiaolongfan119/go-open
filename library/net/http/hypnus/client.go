@@ -32,8 +32,8 @@ type ClientConfig struct {
 }
 
 type Resp struct {
-	Code    int         `json:"code"`
-	Status  string      `json:"status"`
+	Success bool        `json:"success"`
+	Status  int         `json:"status"`
 	Message string      `json:"message"`
 	Data    interface{} `json:"data"`
 }
@@ -113,7 +113,7 @@ func (client *Client) handleResponse(req *http.Request) (resp interface{}, err e
 		return
 	}
 
-	if _resp.Status != "success" && _resp.Status != "0" {
+	if !_resp.Success {
 		return nil, errors.New(_resp.Message)
 	}
 
