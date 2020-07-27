@@ -144,9 +144,9 @@ func (engine *Engine) ServeHTTP(w http.ResponseWriter, req *http.Request) {
 		}
 	}
 	if req.Method == "OPTIONS" {
-		w.Header().Set("Access-Control-Allow-Origin", "*")                                                  //允许访问所有域
-		w.Header().Add("Access-Control-Allow-Headers", "Content-Type,x-requested-with,token,Authorization") //header的类型
-		w.Header().Set("content-type", "application/json")                                                  //返回数据格式是json
+		w.Header().Set("Access-Control-Allow-Origin", "*")                                                                  //允许访问所有域
+		w.Header().Add("Access-Control-Allow-Headers", "Content-Type,x-requested-with,token,Authorization, x-access-token") //header的类型
+		w.Header().Set("content-type", "application/json")                                                                  //返回数据格式是json
 		w.Header().Set("Access-Control-Allow-Methods", "GET,PUT,DELETE,POST,OPTIONS")
 
 		w.Header().Set("Access-Control-Allow-Credentials", "true")
