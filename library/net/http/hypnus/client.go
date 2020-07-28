@@ -97,6 +97,14 @@ func (client *Client) Post(c context.Context, url string, params map[string]inte
 	return client.handleResponse(req)
 }
 
+func (client *Client) Put(c context.Context, url string, params map[string]interface{}) (resp interface{}, err error) {
+	req, err := client.NewRequest(http.MethodPut, url, params)
+	if err != nil {
+		return
+	}
+	return client.handleResponse(req)
+}
+
 func (client *Client) handleResponse(req *http.Request) (resp interface{}, err error) {
 	response, err := client.client.Do(req)
 	if err != nil {
