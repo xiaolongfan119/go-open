@@ -40,7 +40,7 @@ type TokenConfig struct {
 
 func (t *Token) Verify(ctx *hp.Context) {
 
-	stoken := ctx.Request.Header.Get("token")
+	stoken := ctx.Request.Header.Get("x-access-token")
 	if stoken == "" {
 		t.handleFailed(ctx, ecode.TokenEmpty)
 		return
