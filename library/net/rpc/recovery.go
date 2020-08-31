@@ -5,7 +5,7 @@ import (
 	"fmt"
 	"runtime"
 
-	"github.com/ihornet/go-open/library/ecode"
+	"github.com/xiaolongfan119/go-open/library/ecode"
 
 	"google.golang.org/grpc"
 	"google.golang.org/grpc/codes"

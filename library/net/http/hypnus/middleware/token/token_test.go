@@ -5,8 +5,8 @@ import (
 	"testing"
 	"time"
 
-	hp "github.com/ihornet/go-open/library/net/http/hypnus"
-	xtime "github.com/ihornet/go-open/library/time"
+	hp "github.com/xiaolongfan119/go-open/library/net/http/hypnus"
+	xtime "github.com/xiaolongfan119/go-open/library/time"
 )
 
 func TestToken(t *testing.T) {

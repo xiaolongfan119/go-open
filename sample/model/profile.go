@@ -1,7 +1,7 @@
 package model
 
 import (
-	"github.com/ihornet/go-open/library/database/orm"
+	"github.com/xiaolongfan119/go-open/library/database/orm"
 )
 
 type Profile struct {

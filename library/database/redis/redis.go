@@ -4,7 +4,7 @@ import (
 	"fmt"
 
 	"github.com/go-redis/redis"
-	"github.com/ihornet/go-open/library/log"
+	"github.com/xiaolongfan119/go-open/library/log"
 )
 
 type RedisConfig struct {

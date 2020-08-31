@@ -6,7 +6,7 @@ import (
 	"math"
 	"net/http"
 
-	ecode "github.com/ihornet/go-open/library/ecode"
+	ecode "github.com/xiaolongfan119/go-open/library/ecode"
 )
 
 const (

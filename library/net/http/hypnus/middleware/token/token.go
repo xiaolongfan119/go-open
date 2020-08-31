@@ -7,12 +7,12 @@ import (
 	"sync/atomic"
 	"time"
 
-	xtime "github.com/ihornet/go-open/library/time"
+	xtime "github.com/xiaolongfan119/go-open/library/time"
 
-	redis "github.com/ihornet/go-open/library/database/redis"
-	hp "github.com/ihornet/go-open/library/net/http/hypnus"
+	redis "github.com/xiaolongfan119/go-open/library/database/redis"
+	hp "github.com/xiaolongfan119/go-open/library/net/http/hypnus"
 
-	"github.com/ihornet/go-open/library/ecode"
+	"github.com/xiaolongfan119/go-open/library/ecode"
 
 	jwt "github.com/dgrijalva/jwt-go"
 )

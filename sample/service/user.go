@@ -1,7 +1,7 @@
 package service
 
 import (
-	"github.com/ihornet/go-open/sample/model"
+	"github.com/xiaolongfan119/go-open/sample/model"
 )
 
 type UserService struct {

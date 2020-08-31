@@ -4,8 +4,8 @@ import (
 	"sync"
 	"time"
 
-	xtime "github.com/ihornet/go-open/library/time"
-	"github.com/ihornet/go-openn/library/ecode"
+	xtime "github.com/xiaolongfan119/go-open/library/time"
+	"github.com/xiaolongfan119/go-openn/library/ecode"
 )
 
 type State int
