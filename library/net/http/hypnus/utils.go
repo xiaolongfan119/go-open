@@ -7,7 +7,7 @@ import (
 	"runtime"
 	"strconv"
 
-	logger "github.com/ihornet/go-open/v2/library/log"
+	logger "github.com/xiaolongfan119/go-open/v2/library/log"
 )
 
 func JoinPaths(path1, path2 string) string {

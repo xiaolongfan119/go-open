@@ -1,4 +1,4 @@
-module github.com/ihornet/go-open/v2
+module github.com/xiaolongfan119/go-open/v2
 
 go 1.12
 

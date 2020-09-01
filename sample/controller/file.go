@@ -6,7 +6,7 @@ import (
 	"os"
 	"time"
 
-	hp "github.com/ihornet/go-open/v2/library/net/http/hypnus"
+	hp "github.com/xiaolongfan119/go-open/v2/library/net/http/hypnus"
 )
 
 type FileController struct{}

@@ -1,7 +1,7 @@
 package verify
 
 import (
-	"github.com/ihornet/go-open/v2/library/net/http/hypnus"
+	"github.com/xiaolongfan119/go-open/v2/library/net/http/hypnus"
 )
 
 type Verify struct {

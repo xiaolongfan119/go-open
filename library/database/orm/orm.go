@@ -4,9 +4,9 @@ import (
 	"fmt"
 	"time"
 
-	"github.com/ihornet/go-open/v2/library/log"
+	"github.com/xiaolongfan119/go-open/v2/library/log"
 
-	xtime "github.com/ihornet/go-open/v2/library/time"
+	xtime "github.com/xiaolongfan119/go-open/v2/library/time"
 
 	_ "github.com/go-sql-driver/mysql"
 	"github.com/jinzhu/gorm"

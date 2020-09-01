@@ -16,8 +16,8 @@ github.com/go-sql-driver/mysql v0.0.0-20190217072658-972a708cf979/go.mod h1:zAC/
 github.com/golang/protobuf v0.0.0-20190228151929-b5d812f8a370/go.mod h1:6lQm79b+lXiMfvg/cZm0SGofjICqVBUtrP5yJMmIC1U=
 github.com/golang/sys v0.0.0-20190826190057-c7b8b68b1456 h1:xUKFhjyLGLzt2BIlPuXdGkzyL9JVss8clr99CqC0024=
 github.com/golang/sys v0.0.0-20190826190057-c7b8b68b1456/go.mod h1:h1NjWce9XRLGQEsW7wpKNCjG9DtNlClVuFLEZdDNbEs=
-github.com/ihornet/go-open v1.2.5 h1:vLvU0psFN++y8SpzTP3EcVaifides9NLOqurftM2u7k=
-github.com/ihornet/go-open v1.2.5/go.mod h1:waEE30P9MY1OvRSdK3bzjC7Dhkgd6OBOrvl9xeddWUU=
+github.com/xiaolongfan119/go-open v1.2.5 h1:vLvU0psFN++y8SpzTP3EcVaifides9NLOqurftM2u7k=
+github.com/xiaolongfan119/go-open v1.2.5/go.mod h1:waEE30P9MY1OvRSdK3bzjC7Dhkgd6OBOrvl9xeddWUU=
 github.com/jinzhu/gorm v0.0.0-20190210073940-906799fef2f8 h1:wafUzjdiNAm+eEcR2EBIrZbs/rwmnetsTbwD1m4+2L0=
 github.com/jinzhu/gorm v0.0.0-20190210073940-906799fef2f8/go.mod h1:Vla75njaFJ8clLU1W44h34PjIkijhjHIYnZxMqCdxqo=
 github.com/jinzhu/inflection v1.0.0 h1:K317FqzuhWc8YvSVlFMCCUb36O/S9MCKRDI7QkRKD/E=

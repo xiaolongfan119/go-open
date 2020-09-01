@@ -3,9 +3,9 @@ package http
 import (
 	"net/http"
 
-	"github.com/ihornet/go-open/v2/sample/controller"
+	"github.com/xiaolongfan119/go-open/v2/sample/controller"
 
-	hp "github.com/ihornet/go-open/v2/library/net/http/hypnus"
+	hp "github.com/xiaolongfan119/go-open/v2/library/net/http/hypnus"
 )
 
 var (
